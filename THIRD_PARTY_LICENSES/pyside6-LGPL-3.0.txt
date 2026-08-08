@@ -1,0 +1,26 @@
+PySide6 - Qt for Python
+
+Copyright (C) The Qt Company Ltd.
+
+PySide6 is available under the following licenses:
+  - LGPL version 3
+  - GPL version 2
+  - GPL version 3
+
+This application uses PySide6 under the GNU Lesser General Public License
+version 3 (LGPL-3.0).
+
+The full text of the LGPL-3.0 can be found at:
+  https://www.gnu.org/licenses/lgpl-3.0.html
+
+The full text of the GPL-2.0 can be found at:
+  https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+The full text of the GPL-3.0 can be found at:
+  https://www.gnu.org/licenses/gpl-3.0.html
+
+Qt and PySide6 source code is available from:
+  https://code.qt.io/
+  https://pypi.org/project/PySide6/
+
+Source: https://wiki.qt.io/Qt_for_Python

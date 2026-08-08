@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "supreme-diffusion"
+version = "3.1.1"
+description = "PySide6 desktop app for AI video generation, lip sync, and editing"
+requires-python = ">=3.10"
+dependencies = [
+    # Qt frontend
+    "PySide6>=6.6",
+    # Core ML (torch/torchvision installed separately by start.sh with CUDA index)
+    "diffusers>=0.31.0,<1.0.0",
+    "transformers>=4.52.0",
+    "accelerate>=0.30.0",
+    "peft>=0.10.0",
+    "safetensors>=0.4.0",
+    # Quantization & optimization
+    "optimum-quanto>=0.2.0",
+    "gguf>=0.6.0",
+    "mmgp>=0.8.0",
+    "xformers",
+    # Image & video
+    "Pillow>=10.0",
+    "numpy>=1.24",
+    "opencv-python>=4.8",
+    "av>=12.0",
+    "librosa>=0.10",
+    "PyOpenGL>=3.1",
+    # AI post-processing (upscale, denoise, sharpen, face restore)
+    "spandrel>=0.3",
+    # Match Grade / colour matching
+    "color-matcher>=0.5",
+    # Tokenizers
+    "sentencepiece",
+    "protobuf",
+    "ftfy",
+]
+
+[project.optional-dependencies]
+audio = ["orpheus-speech", "soundfile"]
+3d = ["PyOpenGL", "trimesh", "xatlas", "tsr"]
+training = ["toml", "prodigy-optimizer", "lion-pytorch", "bitsandbytes"]
+
+[project.scripts]
+sdqt = "sdqt.app:main"
+
+[tool.setuptools.packages.find]
+include = ["sdqt*", "supremediffusion*"]

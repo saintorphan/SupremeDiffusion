@@ -1,0 +1,12 @@
+{
+  "_class_name": "WanTransformer3DModel",
+  "_diffusers_version": "0.37.0",
+  "in_channels": 36,
+  "out_channels": 16,
+  "num_attention_heads": 40,
+  "attention_head_dim": 128,
+  "ffn_dim": 13824,
+  "freq_dim": 256,
+  "num_layers": 40,
+  "eps": 1e-06
+}

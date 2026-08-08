@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e94560"/>
+      <stop offset="50%" stop-color="#c850c0"/>
+      <stop offset="100%" stop-color="#4158d0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect x="8" y="8" width="240" height="240" rx="40" ry="40" fill="url(#bg)" stroke="url(#glow)" stroke-width="4"/>
+  <!-- Diffusion burst rays -->
+  <g opacity="0.25" stroke="#c850c0" stroke-width="2" fill="none">
+    <circle cx="128" cy="128" r="50"/>
+    <circle cx="128" cy="128" r="70"/>
+    <circle cx="128" cy="128" r="90"/>
+  </g>
+  <!-- Central diamond / spark -->
+  <polygon points="128,58 158,128 128,198 98,128" fill="url(#glow)" opacity="0.9"/>
+  <!-- Horizontal flare -->
+  <polygon points="58,128 128,98 198,128 128,158" fill="url(#glow)" opacity="0.6"/>
+  <!-- Inner bright core -->
+  <circle cx="128" cy="128" r="18" fill="#fff" opacity="0.95"/>
+  <circle cx="128" cy="128" r="10" fill="#c850c0"/>
+  <!-- "SD" text -->
+  <text x="128" y="232" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="28" fill="#e0e0e0" opacity="0.85">SD Qt</text>
+</svg>

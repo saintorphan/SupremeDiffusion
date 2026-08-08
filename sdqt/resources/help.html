@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #ddd; background: #1e1e1e;
+         margin: 16px; line-height: 1.5; }
+  h1 { color: #4ca6ff; border-bottom: 2px solid #333; padding-bottom: 6px; margin-top: 0; }
+  h2 { color: #4ca6ff; border-bottom: 1px solid #333; padding-bottom: 4px; margin-top: 28px; }
+  h3 { color: #7dc8ff; margin-top: 20px; }
+  h4 { color: #aaa; margin-top: 14px; margin-bottom: 4px; }
+  code { background: #2a2a2a; padding: 1px 5px; border-radius: 3px; color: #e8c87a; font-size: 13px; }
+  pre  { background: #2a2a2a; padding: 10px; border-radius: 4px; overflow-x: auto; color: #ccc; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  th { background: #2a2a2a; color: #7dc8ff; text-align: left; padding: 6px 10px; border: 1px solid #444; }
+  td { padding: 5px 10px; border: 1px solid #333; vertical-align: top; }
+  tr:nth-child(even) { background: #252525; }
+  ul, ol { padding-left: 24px; }
+  li { margin-bottom: 3px; }
+  .tip  { background: #1a2a1a; border-left: 3px solid #4a4; padding: 6px 10px; margin: 8px 0; border-radius: 3px; }
+  .warn { background: #2a2a1a; border-left: 3px solid #aa4; padding: 6px 10px; margin: 8px 0; border-radius: 3px; }
+  .key  { background: #333; padding: 1px 6px; border-radius: 3px; border: 1px solid #555;
+           font-family: monospace; font-size: 12px; color: #fff; }
+  a { color: #4ca6ff; }
+  hr { border: none; border-top: 1px solid #333; margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<h1>Supreme Diffusion &mdash; Help</h1>
+<p>A desktop application for AI video generation, image creation, lip sync, and non-linear video editing.</p>
+
+<div class="warn">
+<b>v3.1.0</b> &mdash; GL-rendered Quick Export (pixel-identical to timeline preview), multi-clip
+batch Quick Export, "Use Post Processing?" prompt, Combine preserves resolution + per-clip effects.
+Plus everything from 3.0: Batch Generate, Sequential Processing, Create Loop, app-wide
+<code>yuvj420p</code> colour fix. Bug reports welcome.
+</div>
+
+<h3>Supported Models</h3>
+<ul>
+  <li><b>Wan 2.2 I2V 14B</b> &mdash; Image-to-Video generation (standard quality)</li>
+  <li><b>Wan 2.2 I2V 14B Lightning v2</b> &mdash; Image-to-Video generation (fast, distilled)</li>
+  <li><b>Stable Diffusion 1.5 / SDXL</b> &mdash; Image generation (txt2img, img2img, inpaint)</li>
+  <li><b>TripoSR</b> &mdash; Single-image 3D mesh generation with animation timeline</li>
+</ul>
+<p><b>In Development:</b> FLUX image generation and Z-Image Turbo are partially implemented
+but not yet fully tested. Expect issues with these features.</p>
+
+<!-- ================================================================== -->
+<h2>Table of Contents</h2>
+<ol>
+  <li><a href="#getting-started">Getting Started</a></li>
+  <li><a href="#projects">Project Management</a></li>
+  <li><a href="#keyboard">Keyboard Shortcuts</a></li>
+  <li><a href="#send-to">Send-To System</a></li>
+  <li><a href="#timeline">Timeline</a></li>
+  <li><a href="#timeline-effects">Timeline Effects</a></li>
+  <li><a href="#generate">Video &mdash; Img2Vid</a></li>
+  <li><a href="#video-extender">Video &mdash; Extender</a></li>
+  <li><a href="#longshot">Video &mdash; Longshot</a></li>
+  <li><a href="#trim">Video &mdash; Trim</a></li>
+  <li><a href="#crop">Video &mdash; Crop</a></li>
+  <li><a href="#image-gen">Image &mdash; Generate (All2Img, Inpaint, Draw, Crop/Zoom)</a></li>
+  <li><a href="#image-character">Image &mdash; Character Tools (Face Swap, Body Double, RePose, ControlNet)</a></li>
+  <li><a href="#3d-modeling">Image &mdash; 3D Modeling</a></li>
+  <li><a href="#qwenalyzer">Image &mdash; QwenAlyzer</a></li>
+  <li><a href="#audio-chatterbox">Audio &mdash; Chatterbox TTS</a></li>
+  <li><a href="#audio-dia">Audio &mdash; Dia TTS</a></li>
+  <li><a href="#audio-musicgen">Audio &mdash; MusicGen</a></li>
+  <li><a href="#audio-audiogen">Audio &mdash; AudioGen</a></li>
+  <li><a href="#stillgrabber">Video &mdash; StillGrabber</a></li>
+  <li><a href="#video-lora">Video &mdash; Video LoRA</a></li>
+  <li><a href="#color-correct">Color Correct</a></li>
+  <li><a href="#sequences">Sequences</a></li>
+  <li><a href="#browser">Outputs Browser</a></li>
+  <li><a href="#library">Library</a></li>
+  <li><a href="#daz2supreme">Daz2Supreme</a></li>
+  <li><a href="#lora-training">LoRA Training</a></li>
+  <li><a href="#settings">Settings</a></li>
+  <li><a href="#console">Console</a></li>
+  <li><a href="#ai-assistant">AI Assistant (Qwen Chat)</a></li>
+  <li><a href="#gen-params">Appendix: Generation Parameters Reference</a></li>
+  <li><a href="#credits">Acknowledgments &amp; Credits</a></li>
+</ol>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="getting-started"></a>
+<h2>1. Getting Started</h2>
+
+<h3>Launch</h3>
+<p>The <b>start script</b> handles everything &mdash; just clone and run:</p>
+<pre>git clone https://github.com/saintorphan/SupremeDiffusion.git
+cd SupremeDiffusion
+./start.sh          # Linux / macOS
+start.bat           # Windows</pre>
+
+<h4>What the start script does</h4>
+<p><b>On first run:</b></p>
+<ol>
+  <li>Checks for <b>FFmpeg</b> and offers to install it via your package manager if missing</li>
+  <li>Creates a <code>.venv/</code> Python virtual environment</li>
+  <li>Installs <b>PyTorch with CUDA 12.4</b> support (if not already installed)</li>
+  <li>Installs all Python dependencies: PySide6, diffusers, transformers, accelerate, peft,
+      safetensors, optimum-quanto, gguf, mmgp, xformers, Pillow, numpy, opencv-python, etc.</li>
+  <li>Prompts you to install <b>optional components</b> per-feature:
+      face swap, 3D modeling, LoRA training, Chatterbox TTS, Dia TTS, AudioCraft &mdash; answer Y or N for each</li>
+  <li>Creates factory directories for models, projects, and libraries</li>
+  <li>Launches the application</li>
+</ol>
+<p><b>On every subsequent run:</b></p>
+<ol>
+  <li>Checks GitHub for updates and pulls them automatically (fast-forward only)</li>
+  <li>Re-installs dependencies if the update changed them</li>
+  <li>Launches the application</li>
+</ol>
+<div class="tip">
+If you need a different CUDA version (e.g. 11.8 or 12.1), install PyTorch manually into the
+<code>.venv/</code> before running the start script &mdash; it will detect the existing install and skip that step.
+</div>
+
+<h3>First-Time Setup</h3>
+<ol>
+  <li><b>Model paths</b> default to factory directories inside the app folder
+      (<code>models/checkpoints/</code>, <code>models/vae/</code>, etc.).
+      Drop your model files into these folders, or point the Settings paths to existing
+      directories on your system.</li>
+  <li><b>Models download automatically</b> &mdash; when you click Generate for the first time,
+      the app checks if the required models are present. If not, it prompts you to download
+      them from Hugging Face. The right quantization variant is selected automatically
+      based on your VRAM.</li>
+  <li>Under <b>Performance</b>, choose your <b>Denoising Loop</b>:
+      <ul>
+        <li><code>standard</code> &mdash; default diffusers loop, widest compatibility.</li>
+        <li><code>wan2gp</code> &mdash; optimized loop with NAG, TEA Cache, Quality controls, and
+            multi-phase generation. Requires more VRAM but unlocks advanced features.</li>
+      </ul>
+  </li>
+</ol>
+
+<h3>Hardware Requirements</h3>
+<p><b>This application's inference orchestrator was developed, tested, and optimized on a Linux PC
+with an NVIDIA RTX 3080 Ti (12 GB VRAM) and 32 GB DDR4 RAM.</b></p>
+<p>With the settings below, it successfully runs both <b>Wan 2.2 I2V 14B</b> and
+<b>Wan 2.2 I2V 14B Lightning v2</b> at 480P (512&times;512, 832&times;480, 480&times;832):</p>
+<table>
+<tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+<tr><td>Transformer quantization</td><td><b>int8</b></td><td>~14.5 GB model compressed to fit in 12 GB VRAM</td></tr>
+<tr><td>Text encoder quantization</td><td><b>int8</b></td><td>Reduces text encoder memory footprint</td></tr>
+<tr><td>Attention mode</td><td><b>xformers</b></td><td>Memory-efficient attention &mdash; critical for 12 GB cards</td></tr>
+<tr><td>Memory profile</td><td><b>4</b> (aggressive)</td><td>Maximum offloading between pipeline stages</td></tr>
+<tr><td>Boost</td><td><b>2</b></td><td>MMGP memory management optimizations</td></tr>
+<tr><td>VAE tiling</td><td><b>Auto</b></td><td>Tiles VAE decode to avoid VRAM spikes</td></tr>
+<tr><td>Mixed precision</td><td><b>Enabled</b></td><td>fp16 compute where possible</td></tr>
+</table>
+<p>Lightning v2 generates a 5-second 480P video in ~4 steps. Standard Wan 2.2 I2V 14B uses ~20&ndash;30 steps
+for higher quality. Both use the same ~14.5 GB int8-quantized transformer weights.</p>
+<p>Generated 480P videos can then be post-processed in a single pass: <b>RIFE x2</b> doubles the frame rate
+(16 fps &rarr; 32 fps) for smoother motion, and <b>Lanczos spatial upscale</b> doubles the resolution to
+1024&times;1024 (or 1664&times;960 / 960&times;1664 for landscape/portrait). Both are available as checkboxes
+in the generation parameters &mdash; no external tools needed.</p>
+<div class="tip">
+An NVIDIA GPU with CUDA support is <b>required</b>. The app auto-detects your VRAM tier and selects
+the appropriate quantized model variant. Cards with 8&ndash;12 GB run int8; 24 GB+ can run unquantized bf16.
+</div>
+
+<h3>Creating Your First Project</h3>
+<ol>
+  <li>In the header banner at the top, click the <b>+</b> button next to the project dropdown.</li>
+  <li>Enter a project name and choose a resolution preset.</li>
+  <li>All generated outputs (videos, images, faces, frames) are saved under this project.</li>
+  <li>Switch projects at any time with the dropdown &mdash; your workspace state is preserved.</li>
+</ol>
+
+<h3>Basic Workflow: Image-to-Video</h3>
+<ol>
+  <li>Go to <b>Video &gt; Img2Vid</b>.</li>
+  <li>Mode 1 is selected by default. Drop or browse for a source image.</li>
+  <li>Type a prompt describing the desired motion (e.g. <code>a woman smiles and turns her head slowly</code>).</li>
+  <li>Click <b>Generate</b> (or press <span class="key">Ctrl+G</span>).</li>
+  <li>Preview plays automatically when done. Right-click the preview to send the clip to
+      other tabs (Timeline, Video Extender, Trim, etc.).</li>
+</ol>
+
+<h3>Optional Dependencies</h3>
+<p>The start script prompts for these during first-time setup. They can also be installed later:</p>
+<table>
+<tr><th>Feature</th><th>Package</th><th>Install Command</th></tr>
+<tr><td>Face Swap / Restoration</td><td>insightface, onnxruntime-gpu, gfpgan, realesrgan</td>
+    <td><code>pip install insightface onnxruntime-gpu gfpgan realesrgan</code></td></tr>
+<tr><td>Prompt Enhancement / AI Assistant</td><td>transformers</td>
+    <td><code>pip install transformers</code> (included in default install)</td></tr>
+<tr><td>Chatterbox TTS</td><td>chatterbox-tts</td>
+    <td><code>pip install chatterbox-tts</code></td></tr>
+<tr><td>Dia TTS</td><td>dia-tts</td>
+    <td><code>pip install dia-tts</code></td></tr>
+<tr><td>MusicGen / AudioGen</td><td>audiocraft</td>
+    <td><code>pip install audiocraft</code></td></tr>
+</table>
+<h3>Prompt Enhancement &amp; AI Assistant (Qwen 3.5 4B)</h3>
+<p>All image and video generation tabs show <b>Qwen 4B Enhance:</b> followed by a style dropdown,
+<b>Enhance POS</b>, and <b>Enhance NEG</b> buttons. These use a local <b>Qwen 3.5 4B</b>
+LLM (BF16, ~5 GB) to rewrite your prompt in the correct syntax for your chosen model family,
+or generate a matching negative prompt.</p>
+<p>The same model powers the <b>AI Assistant</b> chat window (click the <b>AI</b> button in the
+header bar). See <a href="#ai-assistant">AI Assistant</a> for details.</p>
+<ul>
+  <li>The model downloads automatically on first use (~5 GB from Hugging Face).</li>
+  <li>Inference runs on your GPU via transformers &mdash; no internet needed after download.</li>
+  <li>Active pipelines are unloaded to free VRAM before the LLM loads. The model stays loaded for reuse across multiple enhances.</li>
+  <li>Starting any generation pipeline (video, image, etc.) automatically unloads Qwen to reclaim VRAM.</li>
+</ul>
+
+<h4>Supported Model Prompt Styles</h4>
+<table>
+<tr><th>Style</th><th>Positive Prompt Format</th><th>Negative Prompt Format</th></tr>
+<tr><td><b>SD 1.5</b></td>
+    <td>Danbooru-style comma-separated tags with <code>masterpiece, best quality, highly detailed</code> prefix.</td>
+    <td>Standard quality/artifact avoidance tags (<code>worst quality, bad anatomy, blurry</code>).</td></tr>
+<tr><td><b>SDXL</b></td>
+    <td>Flowing natural language (2&ndash;3 sentences). Composition, lighting, atmosphere, quality modifiers.</td>
+    <td>Natural negative terms for artifacts and low quality.</td></tr>
+<tr><td><b>SD3 / SD3.5</b></td>
+    <td>Longer natural language (3&ndash;4 sentences). T5 encoder understands full prose &mdash; no booru tags needed.
+        Describes subject, scene, lighting, color palette, artistic style.</td>
+    <td>Plain English sentences (not comma-separated tags).</td></tr>
+<tr><td><b>FLUX</b></td>
+    <td>Rich descriptive paragraph (4&ndash;6 sentences). Vivid prose describing subject, environment, mood,
+        camera angle, color grading. No tags, no quality prefixes &mdash; just write naturally.</td>
+    <td>FLUX does not use negative prompts. The LLM will advise you to improve the positive prompt instead.</td></tr>
+<tr><td><b>Pony: Real</b></td>
+    <td>Score tags (<code>score_9, score_8_up, score_7_up</code>) + photorealistic descriptors
+        (<code>realistic, photo, detailed skin, natural lighting</code>). Avoids anime/cartoon tags.</td>
+    <td>Score negatives + excludes anime, cartoon, illustration, painting, drawing.</td></tr>
+<tr><td><b>Pony: Anime</b></td>
+    <td>Score tags + anime/booru-style tags (<code>1girl, anime coloring, detailed eyes, cel shading</code>).</td>
+    <td>Score negatives + excludes realistic, photo, 3d render.</td></tr>
+<tr><td><b>Illustrious</b></td>
+    <td>Quality prefix (<code>masterpiece, best quality, absurdres</code>) + detailed booru-style descriptors.</td>
+    <td>Standard booru negative tags (<code>worst quality, lowres, bad anatomy</code>).</td></tr>
+<tr><td><b>NoobAI</b></td>
+    <td>NoobAI quality hierarchy (<code>masterpiece, best quality, amazing quality, very aesthetic, absurdres</code>)
+        + detailed danbooru tags. Variant of Illustrious with its own quality tier system.</td>
+    <td>NoobAI-specific quality negatives (<code>worst quality, bad quality, low quality, normal quality</code>).</td></tr>
+</table>
+
+<div class="tip"><b>Tip:</b> Select the style that matches your checkpoint. Using the wrong style
+(e.g. booru tags on FLUX, or natural language on SD 1.5) will produce poor results.
+When in doubt, try <b>SDXL</b> for realistic models or <b>Illustrious</b> for anime models.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="projects"></a>
+<h2>2. Project Management</h2>
+
+<p>The <b>project bar</b> sits in the header banner at the top of the window. It contains:</p>
+
+<table>
+<tr><th>Control</th><th>Description</th></tr>
+<tr><td>Project dropdown</td><td>Select the active project. All outputs go to this project's folder.</td></tr>
+<tr><td><b>+</b></td><td>Create a new project (name + resolution preset).</td></tr>
+<tr><td><b>&#x2398;</b></td><td>Copy the current project (all files and settings).</td></tr>
+<tr><td><b>&#x270F;</b></td><td>Rename the current project.</td></tr>
+<tr><td><b>&#x1F5D1;</b></td><td>Delete the project and all its files (confirmation required).</td></tr>
+<tr><td><b>&#x1F4C2;</b></td><td>Open the project folder in your system file manager.</td></tr>
+<tr><td><b>&#x2699;</b></td><td>Project settings (change resolution preset).</td></tr>
+</table>
+
+<h3>Project Directory Structure</h3>
+<pre>
+ProjectName/
+  clips/
+    generate/     &mdash; Img2Vid outputs
+    extend/       &mdash; Video Extender outputs
+    longshot/     &mdash; Longshot chunks and renders
+    trims/        &mdash; Trim outputs
+    lipsync/      &mdash; Lip sync results
+    timeline/     &mdash; Timeline exports
+    combined/     &mdash; Assembled longshot outputs
+    3d_renders/   &mdash; 3D animation rendered sequences
+    outputs/      &mdash; Final exports
+  audio/
+    chatterbox/   &mdash; Chatterbox TTS outputs
+    dia/          &mdash; Dia TTS outputs
+    musicgen/     &mdash; MusicGen outputs
+    audiogen/     &mdash; AudioGen outputs
+  images/         &mdash; Image generation outputs, Draw PNGs
+  faces/          &mdash; Face library (PNG)
+  frames/         &mdash; Extracted frames
+  draw/           &mdash; Draw editor workspaces (.sdraw)
+  meshes/         &mdash; 3D models (.obj, .glb, .ply, .stl)
+    views/        &mdash; Multi-angle renders
+    scene.json    &mdash; Saved 3D scene state
+  project.json    &mdash; Per-project config (resolution, last paths, etc.)
+</pre>
+
+<h3>Resolution Presets</h3>
+<table>
+<tr><th>Preset</th><th>Aspect</th><th>Preset</th><th>Aspect</th></tr>
+<tr><td>832x480</td><td>16:9</td><td>480x832</td><td>9:16</td></tr>
+<tr><td>960x544</td><td>16:9</td><td>544x960</td><td>9:16</td></tr>
+<tr><td>1280x720</td><td>16:9</td><td>720x1280</td><td>9:16</td></tr>
+<tr><td>1280x544</td><td>21:9</td><td>544x1280</td><td>9:21</td></tr>
+<tr><td>832x624</td><td>4:3</td><td>624x832</td><td>3:4</td></tr>
+<tr><td>512x512</td><td>1:1</td><td>720x720</td><td>1:1</td></tr>
+<tr><td>1024x1024</td><td>1:1</td><td></td><td></td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="keyboard"></a>
+<h2>3. Keyboard Shortcuts</h2>
+
+<table>
+<tr><th>Shortcut</th><th>Action</th><th>Context</th></tr>
+<tr><td><span class="key">Ctrl+G</span></td><td>Start generation</td><td>Video tab (Img2Vid / Video Extender)</td></tr>
+<tr><td><span class="key">Escape</span></td><td>Abort current generation</td><td>Video tab</td></tr>
+<tr><td><span class="key">Ctrl+`</span></td><td>Toggle console drawer</td><td>Global</td></tr>
+<tr><td><span class="key">Ctrl+Z</span></td><td>Undo</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+Y</span> / <span class="key">Ctrl+Shift+Z</span></td><td>Redo</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+C</span></td><td>Copy selection</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+X</span></td><td>Cut selection</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+V</span></td><td>Paste (auto-switches to Transform)</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Delete</span></td><td>Delete selection</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+A</span></td><td>Select all</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+D</span></td><td>Deselect</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Ctrl+Shift+I</span></td><td>Invert selection</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Enter</span></td><td>Confirm transform / Close polygon</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Escape</span></td><td>Cancel transform / Cancel polygon</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Middle mouse</span></td><td>Pan canvas</td><td>Draw editor</td></tr>
+<tr><td><span class="key">Scroll wheel</span></td><td>Zoom canvas</td><td>Draw editor</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="send-to"></a>
+<h2>4. Send-To System</h2>
+
+<p>Supreme Diffusion uses a <b>right-click context menu</b> system for routing media between tabs:</p>
+
+<h4>On any video player (right-click):</h4>
+<ul>
+  <li><b>Send clip to</b> &mdash; Timeline, Img2Vid, Video Extender, Longshot, Trim, Crop.</li>
+  <li><b>Send frame to</b> &mdash; Captures the current playhead frame and sends it to any Image tab
+      (All2Img, Inpaint, Draw, Face Swap, Body Double, RePose, ControlNet, 3D Modeling, Crop/Zoom).</li>
+  <li><b>Send as final frame</b> &mdash; Load the frame as the destination frame for Img2Vid Mode 2
+      or Video Extender.</li>
+  <li><b>Send as guide video</b> &mdash; Generate a 5-second still clip and load it as guidance video.</li>
+</ul>
+
+<h4>On image galleries (right-click):</h4>
+<ul>
+  <li><b>Send to</b> &mdash; All2Img, Inpaint, Draw, Face Swap, Img2Vid,
+      Body Double, RePose, ControlNet, 3D Modeling, Crop/Zoom.</li>
+  <li>Generation settings (prompt, sampler, scheduler) transfer along with the image.</li>
+</ul>
+
+<h4>On source image widgets (right-click):</h4>
+<ul>
+  <li>Same send-to targets as galleries, plus Final Frame and Guide Video options.</li>
+</ul>
+
+<h4>"Save as 3D Model" buttons:</h4>
+<ul>
+  <li>Available on image generation tabs.</li>
+  <li>Generates a 3D mesh from the selected gallery image via TripoSR.</li>
+  <li>Mesh is saved to <code>project/meshes/</code> and appears in the 3D Modeling tab inventory.</li>
+</ul>
+
+<h4>On audio outputs and audio player (right-click):</h4>
+<ul>
+  <li><b>Send to</b> &mdash; Other audio tabs (Chatterbox, Dia, MusicGen, AudioGen),
+      Voice Library, Sound Library.</li>
+  <li><b>Save to Voice Library</b> &mdash; Copy the audio to the global Voice Library for cross-project reuse.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="timeline"></a>
+<h2>5. Timeline</h2>
+
+<p>Multi-track timeline for assembling clips into sequences.</p>
+
+<h3>Layout</h3>
+<ul>
+  <li><b>Clip Library</b> (left sidebar) &mdash; Browse project clips, drag onto tracks.</li>
+  <li><b>Multitrack Canvas</b> (center) &mdash; Arrange clips on parallel video/audio tracks.</li>
+  <li><b>Preview Player</b> (right) &mdash; Playback the assembled sequence.</li>
+  <li><b>Transport Controls</b> (bottom) &mdash; Play, pause, scrub, timeline ruler.</li>
+</ul>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Generate clips in the Video tab (Img2Vid, Video Extender, or Longshot sub-tabs).</li>
+  <li>Clips appear in the Clip Library automatically.</li>
+  <li>Drag clips from the library onto a track.</li>
+  <li>Reorder, trim, and layer clips across multiple tracks.</li>
+  <li>Right-click clips for effects, speed, lip sync, rotate, and more.</li>
+  <li>Export the final assembled video via the Export dialog.</li>
+</ol>
+
+<h3>Clip Context Menu (right-click)</h3>
+<ul>
+  <li><b>Effects</b> &mdash; Add per-clip effects from 5 categories (Color, Filter, Transform, Enhance, Encode). See <a href="#timeline-effects">Timeline Effects</a>.</li>
+  <li><b>Match Grade &rarr; / &larr;</b> &mdash; Generate a 3D LUT from this clip and apply it to all clips to the right (or left) so they colour-match. "Match All To" grades every clip on every track to this one; "Match Similar Clips" grades all clips sharing this one's name. "Chain" mode advances the reference clip-by-clip so gradual look changes carry through.</li>
+  <li><b>Lip Sync (MuseTalk)...</b> &mdash; Opens the MuseTalk dialog to lip-sync audio to the clip's face.</li>
+  <li><b>Rotate 90 CW / CCW</b> &mdash; Rotate the clip 90 degrees.</li>
+  <li><b>Speed</b> &mdash; 0.1x&ndash;4.0x with presets.</li>
+  <li><b>Reverse</b> &mdash; Reverse the clip playback direction.</li>
+  <li><b>Create Loop...</b> &mdash; Opens the Create Loop dialog. Builds a seamless forward+reverse loop from the clip via a single ffmpeg filter_complex pass (no codec drift between halves), trims any black frames at the seam, previews inline, and lets you Save to <code>&lt;project&gt;/clips/&lt;name&gt;_loop.mp4</code> or Export/Quick Export directly.</li>
+  <li><b>Export...</b> &mdash; Opens the standard export dialog pre-configured for a single-clip export.</li>
+  <li><b>Quick Export...</b> &mdash; Asks <b>"Use Post Processing?"</b> (Yes/No/Cancel):
+    <ul>
+      <li><b>Yes</b> captures the clip through the <b>GL shader pipeline</b> (pixel-identical
+          to the timeline preview &mdash; LUTs, colour correction, all effects rendered by the
+          same OpenGL path you see on screen), then chains denoise + sharpen + face restore +
+          lanczos 1.5x + RIFE 2x on top of the GL-rendered result.</li>
+      <li><b>No</b> captures via GL only &mdash; pure WYSIWYG, no AI pipeline. Use this when
+          the source clip has already been post-processed and you just want the timeline
+          looks baked in without compounding upscale/framerate/sharpening.</li>
+    </ul>
+    When invoked from a non-timeline context (Browser, Clip Library, video preview), the
+    GL path is unavailable and Quick Export falls back to the ffmpeg
+    <code>FULL_RANGE_FILTER + lut3d</code> bake path instead.
+  </li>
+</ul>
+
+<h3>Multi-Clip Context Menu (shift-click / rubber-band)</h3>
+<ul>
+  <li><b>Combine</b> &mdash; Merge selected clips into a single clip. Preserves the first clip's
+      native resolution (no forced 1280&times;720 letterboxing) and bakes each clip's individual
+      effect stack (LUTs, colour correction, etc.) into its segment of the combined output.</li>
+  <li><b>Close Gaps</b> &mdash; Butt selected clips up against each other.</li>
+  <li><b>Effects &raquo; Paste / Clear / Bake</b> &mdash; Apply clipboard effect stack, clear all effects, or bake effects into new files &mdash; across every selected clip at once.</li>
+  <li><b>Quick Export N clips...</b> &mdash; Pick an output folder, answer the Post Process prompt once, and batch-export every selected clip sequentially. One unified progress dialog tracks the whole batch; Cancel aborts cleanly. Each output file is named after the clip and auto-suffixed on collision.</li>
+  <li><b>Remove N clips</b> &mdash; Delete all selected clips from the timeline.</li>
+</ul>
+
+<h3>Drag &amp; Drop (multi-file)</h3>
+<p>Dragging multiple files from a file manager onto the Multitrack canvas lays them down
+<b>end-to-end sequentially</b> in drop order starting at the drop position. Each clip's
+duration is probed on drop so the next one butts right up against its end.</p>
+
+<h3>DAW-Style Zoom Scrollbar</h3>
+<p>The timeline features a DAW-style zoom scrollbar at the bottom. Drag the edges to zoom in/out,
+drag the center to scroll. Also supports <span class="key">Ctrl+Scroll</span> to zoom at the cursor position.</p>
+
+<h3>Export Settings</h3>
+<table>
+<tr><th>Setting</th><th>Options</th><th>Description</th></tr>
+<tr><td>GL Render</td><td>On (default) / Off</td><td>Render each frame through the GL shader pipeline (pixel-identical to preview). Eliminates color mismatch between preview and export. When off, uses FFmpeg filter_complex.</td></tr>
+<tr><td>Resolution</td><td>Source, 512x512, 832x480, 1024x1024, 1280x720, 1920x1080</td><td>Output resolution (Source = native clip resolution)</td></tr>
+<tr><td>RIFE Upsampling</td><td>Off, RIFE x2, RIFE x4</td><td>Temporal frame interpolation for smoother playback</td></tr>
+<tr><td>Codec</td><td>Configurable in Settings</td><td>Video codec (GPU-first: nvenc &rarr; CPU fallback)</td></tr>
+</table>
+
+<h3>Export Post-Processing</h3>
+<p>Applied to the final exported video. All options are in the export dialog:</p>
+<table>
+<tr><th>Option</th><th>Description</th></tr>
+<tr><td>Denoise (SCUNet)</td><td>Remove grain/noise while preserving detail</td></tr>
+<tr><td>Sharpen (RealESRGAN 2x)</td><td>Neural detail recovery (upscale 2x then downscale)</td></tr>
+<tr><td>Upscale (RealESRGAN 4x)</td><td>4x neural upscale &mdash; adds real detail to low-res clips</td></tr>
+<tr><td>Face Restore (GFPGAN)</td><td>Fix AI-generated face artifacts at final resolution</td></tr>
+<tr><td>AI Tile Size</td><td>Tile size for AI processing (0 = no tiling, lower = less VRAM)</td></tr>
+<tr><td>Lanczos Upscale</td><td>Traditional spatial upscale (1.5x or 2.0x)</td></tr>
+<tr><td>Film Grain</td><td>Add film grain effect (0&ndash;100%)</td></tr>
+</table>
+
+<div class="tip"><b>Tip:</b> GL Render export produces pixel-identical output to the preview. All color effects, compositing, and blending are rendered through the same OpenGL shaders you see in real-time. Full-range color preservation (<code>in_range=full:out_range=full</code>) is applied automatically on all encodes.</div>
+
+<div class="tip"><b>v3.0 colour fix:</b> Every ffmpeg encode in the app now outputs via
+<code>-pix_fmt yuvj420p</code> instead of the old <code>-pix_fmt yuv420p -color_range pc</code> combo.
+libx264 silently squeezes full-range RGB into TV-range Y[16,235] unless the output pix_fmt is
+explicitly <code>yuvj420p</code> &mdash; so the old convention shipped files where black pixels
+ended up at RGB 16 (grey) instead of 0. If your earlier exports looked washed out compared
+to the timeline preview, this is why. The fix was swept across 17 call sites including
+Quick Export, Batch, Sequential, Timeline Export, Bake Effects, Color Correct, Loop Build,
+Trim, Crop, Speed, MuseTalk, LatentSync, Video Retalking, and render3d.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="timeline-effects"></a>
+<h2>5b. Timeline Effects</h2>
+
+<p>Right-click any clip on the timeline and choose <b>Add Effect</b> to apply per-clip effects.
+Effects are organized into categories and rendered via OpenGL in real-time preview or baked into
+the export via FFmpeg filter_complex.</p>
+
+<h3>Color Effects</h3>
+<table>
+<tr><th>Effect</th><th>Parameters</th><th>Description</th></tr>
+<tr><td>Hue / Saturation</td><td>Hue Shift (-180&deg;&ndash;180&deg;), Saturation (0&ndash;3)</td><td>Shift colors and adjust saturation.</td></tr>
+<tr><td>Brightness / Contrast</td><td>Brightness (-1&ndash;1), Contrast (0&ndash;3)</td><td>Adjust brightness and contrast.</td></tr>
+<tr><td>Levels</td><td>Black Point (0&ndash;255), White Point (0&ndash;255), Gamma (0.1&ndash;3)</td><td>Input levels with gamma correction.</td></tr>
+<tr><td>Shadows / Highlights</td><td>Shadows (-1&ndash;1), Highlights (-1&ndash;1)</td><td>Recover detail in dark/bright areas.</td></tr>
+<tr><td>Color Balance</td><td>RGB sliders for Shadows, Midtones, Highlights</td><td>Per-tone color correction (9 sliders).</td></tr>
+<tr><td>Color Temperature</td><td>Temperature (-100&ndash;100), Tint (-100&ndash;100)</td><td>Warm/cool and green/magenta shift.</td></tr>
+<tr><td>Vibrance</td><td>Vibrance (0&ndash;2)</td><td>Boost muted colors while preserving saturated ones.</td></tr>
+</table>
+
+<h3>Filter Effects</h3>
+<table>
+<tr><th>Effect</th><th>Parameters</th><th>Description</th></tr>
+<tr><td>Sharpen</td><td>Amount (0&ndash;10)</td><td>Edge sharpening.</td></tr>
+<tr><td>Blur</td><td>Amount (0&ndash;10)</td><td>Gaussian blur.</td></tr>
+<tr><td>Denoise</td><td>Strength (0&ndash;10)</td><td>Noise reduction.</td></tr>
+<tr><td>Film Grain</td><td>Intensity (0&ndash;1)</td><td>Synthetic film grain overlay.</td></tr>
+<tr><td>Vignette</td><td>Intensity (0&ndash;1)</td><td>Darken edges for a cinematic look.</td></tr>
+</table>
+
+<h3>Transform Effects</h3>
+<table>
+<tr><th>Effect</th><th>Parameters</th><th>Description</th></tr>
+<tr><td>Speed</td><td>Factor (0.25x&ndash;4x)</td><td>Speed up or slow down the clip.</td></tr>
+<tr><td>Crop / Zoom / Fit</td><td>X, Y, Width, Height (0&ndash;1 fractions)</td><td>Visual crop/zoom/reframe. Opens a dedicated editor dialog.</td></tr>
+</table>
+
+<h3>Enhance Effects</h3>
+<table>
+<tr><th>Effect</th><th>Parameters</th><th>Description</th></tr>
+<tr><td>AI Enhance</td><td>Tile Size (0&ndash;1024 px)</td><td>Real-ESRGAN 4x AI upscaling. Processes the clip frame-by-frame. Downloads the model (~65 MB) on first use.</td></tr>
+</table>
+
+<h3>Encode Effects</h3>
+<table>
+<tr><th>Effect</th><th>Parameters</th><th>Description</th></tr>
+<tr><td>Compress</td><td>CRF (0&ndash;51), Scale (0.1&ndash;1)</td><td>Re-encode with compression and optional downscale.</td></tr>
+</table>
+
+<div class="tip"><b>Note:</b> Color correction and speed control that were previously standalone video tabs are now
+timeline effects. Apply them per-clip by right-clicking any clip on the timeline.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="generate"></a>
+<h2>6. Generate (Img2Vid)</h2>
+
+<p>Create videos from images using Wan 2.1/2.2 diffusion models. Three generation modes:</p>
+
+<h3>Mode 1 &mdash; Single Image</h3>
+<p>Drop a source image. The model animates it based on your prompt.</p>
+
+<h3>Mode 2 &mdash; First + Last Frame</h3>
+<p>Provide a first frame and a last frame. The model interpolates between them.
+Optionally add a <b>final frame</b> (destination) and/or <b>guidance video</b>.</p>
+
+<h3>Mode 3 &mdash; Video Clip</h3>
+<p>Provide an existing video clip. The model re-renders it with the prompt applied
+(video-to-video style transfer).</p>
+
+<h3>Controls</h3>
+<table>
+<tr><th>Control</th><th>Description</th></tr>
+<tr><td>Prompt</td><td>Describe the desired motion and scene content.</td></tr>
+<tr><td>Negative Prompt</td><td>Describe what to avoid (e.g. <code>blurry, static, deformed</code>).</td></tr>
+<tr><td>Generate</td><td>Start video generation.</td></tr>
+<tr><td>Batch Generate / Sequential Processing</td><td>Mode-conditional button next to Generate. Mode 1 shows <b>Batch Generate</b>, Mode 2 shows <b>Sequential Processing</b>, Mode 3 hides it. See below.</td></tr>
+<tr><td>Abort</td><td>Cancel in-progress generation (works for single, batch, and sequential runs).</td></tr>
+<tr><td>Save Clip</td><td>Save the preview to the project with a custom name.</td></tr>
+</table>
+
+<h3>Batch Generate (Mode 1 only)</h3>
+<p>Opens a dialog to run img2vid over a folder or multi-file selection of source images
+with the current tab's prompt + settings applied to each one in turn.</p>
+<ul>
+  <li><b>Source</b> &mdash; Radio: Input Directory or Input Files. Files are picked in drop order.</li>
+  <li><b>Output Directory</b> &mdash; Where the generated clips are written.</li>
+  <li><b>Clip File Prefix</b> &mdash; Each output is named <code>&lt;prefix&gt;&lt;NNN&gt;.mp4</code> with zero-padded indexing.</li>
+  <li><b>Continue from last number in directory</b> &mdash; Scans the output dir for existing
+      <code>&lt;prefix&gt;&lt;digits&gt;.mp4</code> files and starts numbering one past the highest,
+      so you can resume a batch without overwriting.</li>
+  <li><b>Generate / Use guidance vid</b> &mdash; Auto-synthesise a static guidance video from each source
+      image and pass it to the img2vid pipeline.</li>
+  <li><b>Color Correct (match against reference)</b> &mdash; Tick + pick a reference image or video.
+      Every generated clip gets a 3D LUT made from the reference (same <code>generate_lut3d</code>
+      helper the timeline Match Grade uses) and the LUT applied.</li>
+  <li><b>Create Loops</b> &mdash; Run each generated clip through the Loop Builder before saving.</li>
+  <li><b>Apply Post-Process</b> &mdash; Tick to reveal the full post-process controls (denoise, sharpen,
+      upscale, face restore, tile size, lanczos, film grain). Same UI as the Export dialog.</li>
+</ul>
+<p>All dialog fields persist across launches via <code>GlobalConfig.batch_generate_settings</code>.
+The Abort button stops the current item cleanly and exits the batch; errors on individual
+items are logged and skipped without stopping the whole run.</p>
+
+<h3>Sequential Processing (Mode 2 only)</h3>
+<p>Pair-based img2vid over a numerically-named image sequence. For files <code>0.png, 1.png,
+2.png, ...</code> (any contiguous integer run, can start at any index) the processor iterates
+sliding pairs <code>(0,1), (1,2), (2,3), ...</code> and generates a Mode 2 first-frame/last-frame
+video for each pair.</p>
+<ul>
+  <li><b>Strict validation</b> &mdash; Every file stem must be a bare integer, and the full set
+      must be contiguous. A gap like <code>[0,1,2,4]</code> errors before starting.</li>
+  <li><b>Guidance Frame: First / Last</b> &mdash; Extra dropdown next to the guidance checkbox.
+      Picks which of the pair's two frames is used to build the static guidance tensor.</li>
+  <li><b>Output filename</b> &mdash; <code>&lt;prefix&gt;&lt;first&gt;_&lt;last&gt;.mp4</code> zero-padded to the
+      width of the highest integer in the batch. For pairs <code>(0,1), (1,2), (2,3)</code> with
+      prefix <code>anim_</code> you get <code>anim_000_001.mp4 / anim_001_002.mp4 / anim_002_003.mp4</code>.</li>
+  <li><b>Shared pipeline</b> &mdash; Same Color Correct, Post-Process, error-skip, and Abort behaviour
+      as Batch Generate. "Create Loops" is deliberately hidden for sequential runs.</li>
+</ul>
+
+<p>See <a href="#gen-params">Appendix: Generation Parameters Reference</a> for full details
+on all shared generation settings (steps, guidance, LoRA, post-processing, etc.).</p>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="video-extender"></a>
+<h2>7. Video Extender</h2>
+
+<p>Extend an existing video clip with AI-generated continuation frames.
+The model uses the final frames of your source as context to generate new content.</p>
+
+<h3>Layout</h3>
+<ul>
+  <li><b>Source player</b> (left) &mdash; The clip to extend.</li>
+  <li><b>Preview player</b> (right) &mdash; The generated extension.</li>
+  <li><b>Control panel</b> (below) &mdash; Prompt, guidance, generation params.</li>
+</ul>
+
+<h3>Extra Controls</h3>
+<table>
+<tr><th>Control</th><th>Description</th></tr>
+<tr><td>Enable Guidance Video</td><td>Provide a reference video to guide the style/motion of the extension.</td></tr>
+<tr><td>Enable Final Frame</td><td>Provide a destination image the extension should converge toward.</td></tr>
+<tr><td>Continue Clip</td><td>Load the generated result as the new source and extend again (chaining).</td></tr>
+</table>
+
+<div class="tip"><b>Tip:</b> Use <b>Continue Clip</b> repeatedly to build long sequences incrementally.
+Each extension uses the last frames of the previous result as context.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="longshot"></a>
+<h2>8. Longshot</h2>
+
+<p>Create long-form videos by splitting a source clip into chunks, rendering gapfill
+transitions between them, then assembling the final output.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Load a source video.</li>
+  <li>Use the <b>range slider</b> to select the portion to process (Begin/End handles).</li>
+  <li>Set the number of <b>Subdivisions</b> (how many chunks to split into).</li>
+  <li>Choose <b>Gapfill Duration</b> (1s, 2s, or 3s per transition).</li>
+  <li>Click <b>Chunk Clip</b> &mdash; the gapfill queue appears showing Frame A &rarr; Frame B pairs.</li>
+  <li>Click <b>Begin Longshot Render</b> &mdash; the model generates each gapfill transition.</li>
+  <li>When all renders complete, click <b>Assemble Final Video</b>.</li>
+  <li>Click <b>Accept Edits</b> to stitch the result back into the original source.</li>
+</ol>
+
+<h3>Settings</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Subdivisions</td><td>2&ndash;100</td><td>4</td><td>Number of chunks the selected range is split into.</td></tr>
+<tr><td>Gapfill Duration</td><td>1s, 2s, 3s</td><td>2s</td><td>Length of each generated transition clip.</td></tr>
+<tr><td>Preset</td><td>None, Slow Down</td><td>None</td><td>Apply a preset prompt and gapfill configuration.</td></tr>
+<tr><td>Inherit Settings From</td><td>Img2Vid, Video Extender</td><td>&mdash;</td><td>Copy generation parameters from another tab.</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="trim"></a>
+<h2>10. Trim</h2>
+
+<p>Trim videos to a specific time range using FFmpeg. Lossless &mdash; no re-encoding.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Load a source video.</li>
+  <li>Drag the <b>Begin</b> and <b>End</b> handles on the range slider.</li>
+  <li>Thumbnails update to show the begin/end frames.</li>
+  <li>Click <b>Trim Video</b>.</li>
+  <li>Result plays in the right preview. Save to project with a custom name.</li>
+</ol>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="crop"></a>
+<h2>11. Crop</h2>
+
+<p>Crop videos to a specific region using FFmpeg.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Load a source video.</li>
+  <li>Click <b>Grab Frame</b> to capture the current playhead position.</li>
+  <li>A crop rectangle (cyan dashed outline) appears on the frame preview.</li>
+  <li>Drag the rectangle to position it. Choose a <b>Crop Size Preset</b> or resize manually.</li>
+  <li>Click <b>Crop Video</b>.</li>
+</ol>
+
+<h3>Crop Size Presets</h3>
+<p><code>512x512</code>, <code>640x480</code>, <code>720x480</code>, <code>768x512</code>,
+<code>832x480</code>, <code>480x720</code>, <code>512x768</code>, <code>480x832</code>,
+<code>1024x576</code>, <code>576x1024</code>, <code>1280x720</code>, <code>720x1280</code></p>
+
+<hr>
+
+<div class="tip"><b>Note:</b> Color Correct and Speed Control were previously standalone tabs. They are now available as
+<a href="#timeline-effects">timeline effects</a> (Brightness/Contrast, Hue/Saturation, Color Balance, Color Temperature,
+and Speed effects applied per-clip on the timeline).</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="stillgrabber"></a>
+<h2>StillGrabber</h2>
+<p>Extract evenly-spaced still frames from video clips.</p>
+<ul>
+  <li><b>Source Video</b> &mdash; Drop or load a video file. The player shows the source with full scrubbing controls.</li>
+  <li><b>Frame Count</b> &mdash; Number of frames to extract, evenly distributed across the clip duration.</li>
+  <li><b>Output Resolution</b> &mdash; Choose from source resolution or preset sizes. Extracted frames are saved as PNG.</li>
+  <li><b>Right-click send-to</b> &mdash; Right-click any extracted frame to send it to Img2Vid, image generation tabs, face swap, or any other image destination.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="video-lora"></a>
+<h2>Video LoRA</h2>
+<p>Train custom video LoRAs and generate videos with them.</p>
+<ul>
+  <li><b>Training</b> &mdash; Uses ai-toolkit backend for video LoRA training. Configure dataset, training parameters, rank, learning rate, and training steps.</li>
+  <li><b>Batch Generation</b> &mdash; Generate multiple videos using a trained video LoRA with full parameter control.</li>
+  <li><b>Character Dataset Builder</b> &mdash; Build training datasets from existing clips with metadata tagging.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="color-correct"></a>
+<h2>Color Correct</h2>
+<p>Dedicated color correction tab with reference-based matching, per-category controls, and batch processing.</p>
+
+<h3>Setting a Reference</h3>
+<ul>
+  <li><b>Right-click</b> any image or video anywhere in the app &rarr; <b>"Set as Color Reference"</b> to define the target look. The Color Correct tab opens automatically with the reference loaded.</li>
+  <li>Or click <b>Load...</b> in the Reference section to pick a file.</li>
+  <li>The reference frame thumbnail shows what you're matching <em>to</em>.</li>
+</ul>
+
+<h3>Adding Sources</h3>
+<ul>
+  <li>Use <b>Send to &rarr; Color Correct (source)</b> from any right-click menu to send files for correction.</li>
+  <li>Or click <b>Load...</b> / <b>Add</b> to pick files. Drag-and-drop also works on the batch file list.</li>
+  <li>The Source video player shows the first file loaded, with full playback controls.</li>
+</ul>
+
+<h3>Corrections Panel</h3>
+<p>Six correction categories, each with an enable checkbox, strength slider (0&ndash;100%), and editable parameter spinboxes:</p>
+<table>
+  <tr><th>Category</th><th>Parameters</th></tr>
+  <tr><td>Brightness / Contrast</td><td>Brightness (&minus;0.50 to +0.50), Contrast (0.50 to 2.00)</td></tr>
+  <tr><td>Color Balance</td><td>R Gain, G Gain, B Gain (0.50 to 2.00 each)</td></tr>
+  <tr><td>Color Temperature</td><td>Temperature (&minus;50 to +50), Tint (&minus;50 to +50)</td></tr>
+  <tr><td>Saturation</td><td>Saturation (0.00 to 3.00)</td></tr>
+  <tr><td>Levels</td><td>Black Point (0&ndash;80), White Point (180&ndash;255), Gamma (0.50 to 2.00)</td></tr>
+  <tr><td>Shadows / Highlights</td><td>Shadows (&minus;0.50 to +0.50), Highlights (&minus;0.50 to +0.50)</td></tr>
+</table>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Set reference + load source(s)</li>
+  <li>Click <b>Analyze</b> to auto-compute corrections (populates spinboxes), or skip and dial in values manually</li>
+  <li>Toggle categories on/off, adjust per-category and overall strength sliders</li>
+  <li>Click <b>Apply</b> to process all files &mdash; the Result player loads the corrected output for side-by-side comparison</li>
+</ol>
+
+<div class="tip"><b>Tip:</b> To fix the slight yellowing and darkening from YUV encoding, try Brightness +0.03 and Temperature &minus;5. But with GL Render export enabled, this should no longer be necessary.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="sequences"></a>
+<h2>Sequences</h2>
+<p>7 guided multi-step Sequence Wizards for common video production workflows. Each wizard walks you through a structured pipeline with automatic send-to routing between steps.</p>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="image-gen"></a>
+<h2>12. Image &mdash; Generate</h2>
+
+<p>The <b>Generate</b> tab under Image contains four sub-tabs for all image creation and editing:</p>
+
+<h3>All2Img (Txt2Img + Img2Img)</h3>
+<p>Unified text-to-image and image-to-image generation. Supports <b>SD 1.5 / SDXL</b> checkpoints,
+custom VAEs, LoRAs, SDXL refiner, and all standard samplers/schedulers. Drop a source image for
+img2img mode, or leave empty for txt2img. Results appear in the gallery below.</p>
+
+<h3>Inpaint</h3>
+<p>Full layer-based inpainting editor with a <b>dual-toolbar</b> design (Mask row + Paint row).
+The source image loads as a locked Background layer; a Mask layer is auto-created on top.</p>
+<ul>
+  <li><b>Mask tools</b>: Brush, Eraser, Line, Ellipse, Rectangle, Flood Fill, Freehand Select,
+      Polygon Lasso, Magnetic Lasso, Magic Wand. Includes <b>Sel&rarr;Mask</b>, Clear, and Invert.</li>
+  <li><b>Paint tools</b>: Full Draw editor toolkit for compositing edits before inpainting.</li>
+  <li><b>Magic Mask</b>: AI auto-segmentation via BiRefNet.</li>
+</ul>
+
+<h3>Draw</h3>
+<p>Layer-based image editor with drawing tools, selection tools, and file I/O.
+Workspaces auto-save per project as <code>.sdraw</code> files.</p>
+<ul>
+  <li><b>Drawing</b>: Brush, Eraser, Grab, Line, Ellipse, Rectangle, Eyedropper, Flood Fill.</li>
+  <li><b>Selection</b>: Freehand, Polygon Lasso, Magnetic Lasso, Magic Wand.</li>
+  <li><b>Transform</b>: Resize, rotate, move with handles. <span class="key">Enter</span> to confirm.</li>
+  <li><b>Layers</b>: Add, remove, duplicate, merge, lock, reorder, opacity control.</li>
+  <li><b>Files</b>: Save/Open .sdraw, Save Flat PNG, Send Flat/Layer to other tabs, PNG Library sidebar.</li>
+</ul>
+
+<h3>Crop/Zoom</h3>
+<p>Crop and zoom into a region of an image. Drop a source image, define a crop region, and save.</p>
+
+<h3>Common Image Settings</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Checkpoint</td><td>Dropdown</td><td>&mdash;</td><td>SD 1.5 / SDXL model file from <code>sd_checkpoint_dir</code>.</td></tr>
+<tr><td>VAE</td><td>Dropdown</td><td>&mdash;</td><td>VAE override (optional).</td></tr>
+<tr><td>Sampler</td><td>Dropdown</td><td>&mdash;</td><td>Sampling algorithm (Euler, DPM++, etc.).</td></tr>
+<tr><td>Scheduler</td><td>Dropdown</td><td>&mdash;</td><td>Noise schedule (Normal, Karras, etc.).</td></tr>
+<tr><td>Steps</td><td>1&ndash;150</td><td>20&ndash;35</td><td>Diffusion steps.</td></tr>
+<tr><td>CFG Scale</td><td>1&ndash;30</td><td>7.0</td><td>Classifier-free guidance.</td></tr>
+<tr><td>Width / Height</td><td>64&ndash;4096</td><td>1024</td><td>Output dimensions (step 64).</td></tr>
+<tr><td>Seed</td><td>-1 to 2B</td><td>-1</td><td>Random seed. -1 = random.</td></tr>
+<tr><td>Batch Count</td><td>1&ndash;16</td><td>1</td><td>Number of images to generate.</td></tr>
+<tr><td>Denoise</td><td>0&ndash;1</td><td>0.75</td><td>(Img2Img/Inpaint only) Denoising strength.</td></tr>
+<tr><td>LoRA</td><td>Checklist</td><td>&mdash;</td><td>Select LoRAs with per-LoRA weight multipliers.</td></tr>
+<tr><td>Remove BG</td><td>On/Off</td><td>Off</td><td>Remove background after generation (requires BiRefNet).</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="image-character"></a>
+<h2>13. Image &mdash; Character Tools</h2>
+
+<p>The <b>Character Tools</b> tab under Image contains four sub-tabs for person/face operations:</p>
+
+<h3>Face Swap</h3>
+<p>InsightFace detection + inswapper/reswapper models. Load source face + target image,
+detect faces, select which to replace, swap. Settings: Model (inswapper_128/reswapper_128/256),
+Enhancer (GFPGAN, CodeFormer, etc.), Blend (0&ndash;1), Swap All Faces, Restore Resolution, Mask Area Only.</p>
+
+<h3>Body Double</h3>
+<p>Replace a person while preserving pose. Uses configurable ControlNet (OpenPose, Canny, Depth,
+Lineart, Normal) + IP-Adapter (Base, Plus, Plus Face, Full Face) + SDXL inpainting. Supports
+dual ControlNet conditioning and <b>Magic Mask</b> AI auto-segmentation.</p>
+
+<h3>RePose</h3>
+<p>Same technology as Body Double with separate source and pose reference inputs.
+Re-pose a person from one image into the pose of another.</p>
+
+<h3>ControlNet</h3>
+<p>General-purpose ControlNet-conditioned txt2img and img2img. Single or dual ControlNet
+with live preprocessing preview. Supports Canny, OpenPose, Depth, Lineart, Normal.</p>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="qwenalyzer"></a>
+<h2>15. QwenAlyzer</h2>
+
+<p>Combined image metadata reader and LLM-powered image analysis tool.
+Drop any image (PNG, JPEG, WebP, BMP, TIFF) to analyze it.</p>
+
+<h3>PNG Metadata</h3>
+<p>For PNG files, embedded generation parameters (A1111-style prompt, model, steps, seed, etc.)
+are automatically extracted and displayed. You can edit the parameters and write them back
+into the image, save a copy with new metadata, or inject parameters into another image.</p>
+
+<h3>QwenAlyze</h3>
+<p>Two-stage image analysis: <b>Qwen 2.5 VL 3B</b> (vision model) sees the image and
+generates a detailed description, then <b>Qwen 3.5 4B</b> (text model) formats it into
+a reproduction prompt + negative prompt tailored to your chosen model family.</p>
+
+<ol>
+  <li>Load any image (not just PNG).</li>
+  <li>Select a <b>Model Family</b> from the dropdown (SD 1.5, SDXL, SD3, FLUX, Pony, Illustrious, NoobAI).</li>
+  <li>Click <b>QwenAlyze</b> to generate both positive and negative prompts.</li>
+  <li>Use <b>Re-Roll</b> buttons to individually regenerate the positive or negative prompt.</li>
+  <li>Click <b>Send To...</b> to route the image + generated prompts to any generation tab.</li>
+</ol>
+
+<p>The LLM loads on demand (unloading all other pipelines first to free VRAM) and
+unloads automatically after each operation.</p>
+
+<h3>Send-to Targets</h3>
+<p>When sending, the image is loaded into the target tab's image input, and the generated
+prompt/negative are injected into the target tab's prompt fields (where supported).</p>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="3d-modeling"></a>
+<h2>14. 3D Modeling</h2>
+
+<p>Generate 3D meshes from images using <b>TripoSR</b> (Stability AI), view them in an
+interactive OpenGL viewport, compose them over background images, and send the composite
+to any image or video tab for AI refinement.</p>
+
+<h3>Requirements</h3>
+<p>Requires optional packages: <code>PyOpenGL</code>, <code>trimesh</code>, and <code>tsr</code>.
+Install via the start script or manually:</p>
+<pre>pip install PyOpenGL trimesh tsr</pre>
+<p>Models (<b>BiRefNet</b> ~350 MB for background removal, <b>TripoSR</b> ~3 GB for mesh generation)
+download automatically on first use.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Send an image to the 3D tab as a <b>Background Plate</b> (from any image tab via right-click Send To).</li>
+  <li>Click <b>Generate from Background</b> to create a 3D mesh from the background image via TripoSR.</li>
+  <li>The mesh auto-loads into the viewport, composited over the background.</li>
+  <li>Adjust the mesh <b>Position</b> (X/Y/Z), <b>Rotation</b> (X/Y/Z), and <b>Scale</b> using the Transform controls.</li>
+  <li>Toggle <b>Wireframe</b> and <b>Grid</b> display as needed.</li>
+  <li>Click <b>Send Composite</b> to capture the viewport and route to Img2Img, Inpaint, Draw, Img2Vid, etc.</li>
+</ol>
+
+<h3>Mesh Generation Settings</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Resolution</td><td>64&ndash;512</td><td>256</td><td>Mesh polygon density. Higher = more detail, slower generation.</td></tr>
+<tr><td>Format</td><td>obj, glb, ply, stl</td><td>obj</td><td>Output mesh file format.</td></tr>
+<tr><td>Remove BG</td><td>On/Off</td><td>On</td><td>Remove image background with BiRefNet before mesh generation.</td></tr>
+</table>
+
+<h3>Viewport Controls</h3>
+<table>
+<tr><th>Action</th><th>Control</th></tr>
+<tr><td>Orbit camera</td><td>Left-click drag (all modes)</td></tr>
+<tr><td>Pan camera</td><td>Middle-click drag (or Shift + left-click drag)</td></tr>
+<tr><td>Zoom</td><td>Scroll wheel</td></tr>
+<tr><td>Select mesh</td><td>Left-click on mesh (Translate/Rotate/Scale modes)</td></tr>
+<tr><td>Move/rotate/scale mesh</td><td>Drag a gizmo axis handle</td></tr>
+</table>
+
+<h3>Interaction Modes &amp; Gizmos</h3>
+<p>The <b>Mode</b> dropdown controls how left-click drag behaves in the viewport:</p>
+<table>
+<tr><th>Mode</th><th>Gizmo</th><th>Drag Behavior</th></tr>
+<tr><td><b>Orbit</b></td><td>None</td><td>Rotate the camera around the scene (default).</td></tr>
+<tr><td><b>Translate</b></td><td>XYZ colored arrows (red/green/blue)</td>
+    <td>Click a mesh to select it. Drag an arrow to move it along that axis.</td></tr>
+<tr><td><b>Rotate</b></td><td>XYZ colored rings</td>
+    <td>Click a mesh to select it. Drag a ring to rotate it around that axis.</td></tr>
+<tr><td><b>Scale</b></td><td>XYZ colored arrows with cube tips</td>
+    <td>Click a mesh to select it. Drag a handle to scale it uniformly.</td></tr>
+</table>
+<p>In all non-Orbit modes, left-dragging away from any gizmo handle still orbits the camera,
+so you can reposition the view without switching modes. The active drag axis highlights
+yellow during manipulation. You can also use the <b>Transform</b> spinboxes
+(Position X/Y/Z, Rotation X/Y/Z, Scale) for precise numeric control.</p>
+
+<h3>3D Item Inventory</h3>
+<p>Generated meshes are saved to <code>project/meshes/</code>. Double-click any item in the
+inventory to load it into the viewport. Click <b>Import</b> to load a mesh file from anywhere
+on disk (it will be copied into the project). Multiple meshes can be loaded simultaneously.</p>
+
+<h3>Camera Presets</h3>
+<p>The <b>Camera</b> group provides quick-switch positions: Front, Right, Back, Left, Top, 3/4 Right, 3/4 Left.
+Click <b>Go</b> to snap to a preset. Click <b>Save</b> to store the current camera position as a named
+preset (added to the dropdown for the session).</p>
+
+<h3>Lighting</h3>
+<p>The <b>Lighting</b> group controls the directional light illuminating the 3D scene:</p>
+<ul>
+  <li><b>Azimuth</b> (0&ndash;360&deg;) &mdash; horizontal direction of the light.</li>
+  <li><b>Elevation</b> (-90&ndash;90&deg;) &mdash; vertical angle (positive = above, negative = below).</li>
+  <li><b>Intensity</b> (0&ndash;200%) &mdash; diffuse and specular brightness.</li>
+  <li><b>Ambient</b> (0&ndash;100%) &mdash; fill light that illuminates all surfaces equally.</li>
+</ul>
+
+<h3>Scene Persistence</h3>
+<p>The entire 3D scene (background, meshes, transforms, camera, animation keyframes) is
+<b>auto-saved</b> to <code>project/meshes/scene.json</code> when you switch projects or close the app,
+and <b>auto-restored</b> when you return to the project.</p>
+
+<h3>Animation Timeline</h3>
+
+<p>The bottom of the 3D tab has a <b>keyframe animation timeline</b> for creating motion guides.</p>
+
+<h4>Workflow</h4>
+<ol>
+  <li>Load a background and meshes into the scene.</li>
+  <li>Position the camera and objects where the animation should <b>start</b>.</li>
+  <li>Click <b>+ Key</b> to add a keyframe at frame 0.</li>
+  <li>Scrub to a later frame, reposition camera/objects, click <b>+ Key</b> again.</li>
+  <li>The timeline interpolates smoothly between keyframes.</li>
+  <li>Click <b>Render Sequence</b> to export the animation as a video.</li>
+  <li>The rendered video is automatically offered to send to <b>Img2Vid (Mode 3)</b>
+      where Wan 2.2 transforms the crude 3D render into AI-refined video.</li>
+</ol>
+
+<h4>Animation Presets</h4>
+<table>
+<tr><th>Preset</th><th>Description</th></tr>
+<tr><td>Turntable</td><td>360&deg; camera orbit around the scene center</td></tr>
+<tr><td>Dolly In</td><td>Camera zooms from far to close</td></tr>
+<tr><td>Object Spin</td><td>Selected mesh rotates 360&deg; in place</td></tr>
+<tr><td>Reveal</td><td>Camera starts close, pulls back to reveal the full scene</td></tr>
+<tr><td>Orbit + Rise</td><td>Camera spirals upward while orbiting</td></tr>
+</table>
+
+<h4>Timeline Controls</h4>
+<table>
+<tr><th>Control</th><th>Description</th></tr>
+<tr><td>Play / Pause</td><td>Preview the animation in the viewport</td></tr>
+<tr><td>Stop</td><td>Rewind to frame 0</td></tr>
+<tr><td>Frame spinner</td><td>Jump to a specific frame</td></tr>
+<tr><td>FPS</td><td>Animation framerate (8&ndash;60, default 24)</td></tr>
+<tr><td>Duration</td><td>Animation length in seconds (1&ndash;30, default 5)</td></tr>
+<tr><td>+ Key</td><td>Add a keyframe at the current frame (captures camera + all mesh transforms)</td></tr>
+<tr><td>Preset dropdown</td><td>Auto-generate keyframes from a template</td></tr>
+<tr><td>Render Sequence</td><td>Render all frames to PNG, assemble to MP4, offer to send to Img2Vid</td></tr>
+</table>
+
+<div class="tip"><b>Key concept:</b> The 3D render doesn't need to be photorealistic &mdash; it's a
+<b>motion guide</b>. Wan 2.2 uses the video as reference for geometry, motion, and composition,
+then generates the final video with the quality and style defined by your prompt.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="audio-chatterbox"></a>
+<h2>16. Audio &mdash; Chatterbox TTS</h2>
+
+<p>Voice cloning with emotion control using the Chatterbox model from Resemble AI.
+Clone any voice from a short reference recording and generate expressive speech with
+controllable emotion.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Drop or browse for a <b>reference voice</b> audio sample (the voice to clone).</li>
+  <li>Type text in the input area.</li>
+  <li>Adjust emotion and generation parameters.</li>
+  <li>Click <b>Generate</b>. The model downloads automatically on first use.</li>
+  <li>Output appears in the list. Click to preview, right-click for send-to options.</li>
+</ol>
+
+<div class="tip"><b>Requires:</b> <code>pip install chatterbox-tts</code></div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="audio-dia"></a>
+<h2>17. Audio &mdash; Dia TTS</h2>
+
+<p>Multi-speaker dialogue synthesis with voice cloning using Dia from Nari Labs.
+Generate natural conversations between multiple speakers from a script format.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Optionally load a <b>reference voice</b> for voice cloning.</li>
+  <li>Write dialogue in the text area using speaker tags (e.g. <code>[S1]</code> and <code>[S2]</code>).</li>
+  <li>Click <b>Generate</b>.</li>
+  <li>Output appears in the list with send-to options.</li>
+</ol>
+
+<div class="tip"><b>Requires:</b> <code>pip install dia-tts</code></div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="audio-musicgen"></a>
+<h2>18. Audio &mdash; MusicGen</h2>
+
+<p>Text-to-music generation using Meta AudioCraft's MusicGen model.
+Describe the music you want and generate instrumental tracks.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Type a text description of the desired music
+      (e.g. <code>upbeat electronic dance music with synth pads and a driving beat</code>).</li>
+  <li>Set the desired <b>duration</b> in seconds.</li>
+  <li>Click <b>Generate</b>. The model downloads automatically on first use (~3.3 GB).</li>
+  <li>Output appears in the list. Right-click to send to lip sync, Voice Library, or Sound Library.</li>
+</ol>
+
+<div class="tip"><b>Requires:</b> <code>pip install audiocraft</code></div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="audio-audiogen"></a>
+<h2>19. Audio &mdash; AudioGen</h2>
+
+<p>Text-to-sound-effect generation using Meta AudioCraft's AudioGen model.
+Generate ambient sounds, foley, and effects from text descriptions.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>Type a text description of the desired sound
+      (e.g. <code>rain falling on a tin roof with distant thunder</code>).</li>
+  <li>Set the desired <b>duration</b> in seconds.</li>
+  <li>Click <b>Generate</b>. The model downloads automatically on first use (~3.3 GB).</li>
+  <li>Output appears in the list. Right-click to send to Sound Library or timeline.</li>
+</ol>
+
+<div class="tip"><b>Requires:</b> <code>pip install audiocraft</code></div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="daz2supreme"></a>
+<h2>Daz2Supreme</h2>
+<p>Full Daz3D scene import with PBR rendering and posing tools.</p>
+<ul>
+  <li><b>Scene Import</b> &mdash; Import Daz3D scenes with PBR textures, normal maps, and shadow maps</li>
+  <li><b>FABRIK IK Solver</b> &mdash; Drag bones in the viewport to pose characters with inverse kinematics</li>
+  <li><b>Pose Library</b> &mdash; Save and load poses for reuse across scenes</li>
+  <li><b>Clothing Conform</b> &mdash; Automatically conform clothing to character body shape</li>
+  <li><b>HDRI Skybox</b> &mdash; Set environment lighting with HDRI background images</li>
+  <li><b>Bone Picking &amp; Light Editor</b> &mdash; Click bones to select, adjust scene lights interactively</li>
+  <li><b>Batch Render</b> &mdash; Render image sequences or video from posed scenes</li>
+  <li><b>Send-to</b> &mdash; Send rendered output to any image or video tab</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="lora-training"></a>
+<h2>22b. LoRA Training</h2>
+
+<p>Train LoRA adapters for SD 1.5, SDXL, Pony, and Illustrious models using
+<b>kohya sd-scripts</b> as the training backend.</p>
+
+<h3>Requirements</h3>
+<p>Requires kohya sd-scripts (installed via the start script or manually):</p>
+<pre>git clone https://github.com/kohya-ss/sd-scripts.git third_party/sd-scripts
+pip install -r third_party/sd-scripts/requirements.txt</pre>
+<p>The dataset preparation tools work without kohya &mdash; only the Train button requires it.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li><b>Prepare dataset:</b> Select a folder of training images. Use the caption editor
+      to write or edit captions, or auto-caption with BLIP/WD14.</li>
+  <li><b>Configure training:</b> Select a preset or customize model, rank, learning rate,
+      optimizer, and other settings.</li>
+  <li><b>Train:</b> Click Train LoRA. Monitor progress via the loss graph, progress bar,
+      and sample image previews.</li>
+  <li><b>Use:</b> The trained LoRA is auto-copied to your SD LoRA directory and appears
+      immediately in the LoRA picker on all image generation tabs.</li>
+</ol>
+
+<h3>Dataset Tools</h3>
+<table>
+<tr><th>Tool</th><th>Description</th></tr>
+<tr><td>Caption All (BLIP)</td><td>Auto-caption all uncaptioned images with natural language descriptions.</td></tr>
+<tr><td>Caption All (WD14)</td><td>Auto-tag all uncaptioned images with danbooru-style tags.</td></tr>
+<tr><td>Prepend to All</td><td>Add text to the start of every caption (e.g. trigger word).</td></tr>
+<tr><td>Append to All</td><td>Add text to the end of every caption.</td></tr>
+<tr><td>Find &amp; Replace</td><td>Search and replace across all caption files.</td></tr>
+</table>
+
+<h3>Training Presets</h3>
+<table>
+<tr><th>Preset</th><th>Model</th><th>Rank</th><th>Steps</th><th>Notes</th></tr>
+<tr><td>SD 1.5 Quick</td><td>SD 1.5</td><td>32</td><td>1500</td><td>Fast, good for faces/styles</td></tr>
+<tr><td>SD 1.5 Quality</td><td>SD 1.5</td><td>64</td><td>3000</td><td>Higher quality, slower</td></tr>
+<tr><td>SDXL Efficient</td><td>SDXL</td><td>16</td><td>2000</td><td>12 GB VRAM safe</td></tr>
+<tr><td>SDXL Quality</td><td>SDXL</td><td>32</td><td>4000</td><td>12 GB tight, all caching enabled</td></tr>
+<tr><td>Pony Character</td><td>SDXL</td><td>16</td><td>3000</td><td>Optimized for Pony character LoRAs</td></tr>
+<tr><td>Illustrious Style</td><td>SDXL</td><td>16</td><td>2500</td><td>Optimized for Illustrious style LoRAs</td></tr>
+</table>
+
+<h3>Key Settings (12 GB VRAM)</h3>
+<div class="warn">
+For SDXL on 12 GB VRAM: <b>Gradient Checkpointing</b> must be ON, <b>rank</b> capped at 32,
+<b>Cache Latents</b> and <b>Cache TE Outputs</b> must be ON. The presets handle this automatically.
+</div>
+
+<h3>Progress Monitoring</h3>
+<ul>
+  <li><b>Loss graph</b> &mdash; real-time loss curve with rolling average.</li>
+  <li><b>Sample previews</b> &mdash; generated every N steps so you can see training progress.</li>
+  <li><b>Status bar</b> &mdash; step count, current loss, learning rate, ETA.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="browser"></a>
+<h2>20. Outputs Browser</h2>
+
+<p>Browse, preview, and manage all files in your project.</p>
+
+<h3>Sections</h3>
+<table>
+<tr><th>Category</th><th>Sections</th></tr>
+<tr><td>Videos</td><td>Generate, Extend, Longshot, Trims, Lip Sync, Timeline, Combined, Outputs</td></tr>
+<tr><td>Images</td><td>Images, Face Swap, RePose, Body Double, ControlNet, Crop/Zoom</td></tr>
+<tr><td>Audio</td><td>Chatterbox TTS, Dia TTS, MusicGen, AudioGen</td></tr>
+<tr><td>Other</td><td>Frames, Faces</td></tr>
+</table>
+
+<h3>Features</h3>
+<ul>
+  <li>Files sorted by modification date (newest first).</li>
+  <li>Click to preview &mdash; video files play in the video preview, images display with aspect ratio.</li>
+  <li>Right-click for send-to menus (same targets as other tabs).</li>
+  <li>Rename and delete files from context menu.</li>
+  <li><b>Refresh</b> button rescans directories.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="library"></a>
+<h2>21. Library</h2>
+
+<p>Top-level asset library with five sub-tabs for cross-project reuse:</p>
+
+<h3>PNG Library</h3>
+<p>Store and organize reference images, overlays, and compositing assets.
+Used by the Draw editor for drag-and-drop asset compositing.</p>
+
+<h3>Voice Library</h3>
+<p>Save favourite generated voices for reuse across projects. Right-click any audio output
+&rarr; <b>Save to Voice Library</b>. Voices are stored globally, not per-project.</p>
+
+<h3>Sound Library</h3>
+<p>Store music and sound effects (from MusicGen, AudioGen, or imported) for easy access
+across all projects.</p>
+
+<h3>Character Library</h3>
+<p>Save character references (face + body images) for consistent identity across projects.
+Useful for maintaining character consistency in Body Double, RePose, and Face Swap operations.</p>
+
+<h3>Face Library</h3>
+<p>Manage face images for face swap operations. Upload, rename, and organize faces.
+Import from any image tab or file browser.</p>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="settings"></a>
+<h2>22. Settings</h2>
+
+<p>Global configuration for models, performance, and storage. All changes are saved
+by clicking <b>Save Settings</b> at the bottom.</p>
+
+<h3>Video Model Paths</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>transformer</td><td>Path to the primary Wan 2.1/2.2 transformer checkpoint.</td></tr>
+<tr><td>transformer_2</td><td>Path to the secondary transformer (e.g. lightning variant).</td></tr>
+<tr><td>vae</td><td>Path to the video VAE checkpoint.</td></tr>
+<tr><td>text_encoder</td><td>Path to the text encoder (UMT5 / T5).</td></tr>
+<tr><td>lora_dir</td><td>Directory containing video LoRA files.</td></tr>
+</table>
+
+<h3>Image Model Paths</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>sd_checkpoint_dir</td><td>Directory containing SDXL checkpoint files (.safetensors).</td></tr>
+<tr><td>sd_vae_dir</td><td>Directory containing SDXL VAE overrides.</td></tr>
+<tr><td>sd_lora_dir</td><td>Directory containing SDXL LoRA files.</td></tr>
+<tr><td>face_models_dir</td><td>Directory containing face detection/swap models (InsightFace, GFPGAN, etc.).</td></tr>
+</table>
+
+<h3>FLUX Model Paths</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>flux_chroma_dir</td><td>FLUX Chroma model directory.</td></tr>
+<tr><td>flux_fill_dir</td><td>FLUX Fill (inpainting) model directory.</td></tr>
+<tr><td>flux_lora_dir</td><td>FLUX LoRA files directory.</td></tr>
+<tr><td>birefnet_dir</td><td>BiRefNet background removal model directory.</td></tr>
+<tr><td>triposr_dir</td><td>TripoSR 3D generation model directory.</td></tr>
+</table>
+
+<h3>Z-Image Model Paths</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>zimage_dir</td><td>Z-Image / Hidream model path (file or directory).</td></tr>
+<tr><td>zimage_lora_dir</td><td>Z-Image LoRA files directory.</td></tr>
+</table>
+
+<h3>Performance</h3>
+<table>
+<tr><th>Setting</th><th>Options</th><th>Description</th></tr>
+<tr><td>Denoising Loop</td><td>standard, wan2gp</td><td><b>standard</b>: default diffusers loop. <b>wan2gp</b>: optimized loop enabling NAG, TEA Cache, Quality controls, and multi-phase generation.</td></tr>
+<tr><td>Memory Profile</td><td>1&ndash;5</td><td>Balances VRAM usage vs. speed. 1 = minimum VRAM, 5 = maximum speed. Auto-detected from GPU.</td></tr>
+<tr><td>Attention</td><td>sdpa, flash_attn, sage_attn, xformers</td><td>Attention mechanism. <b>sdpa</b>: PyTorch native (default). <b>flash_attn</b>: Flash Attention 2. <b>sage_attn</b>: SageAttention. <b>xformers</b>: xformers memory-efficient attention.</td></tr>
+<tr><td>Transformer Quantization</td><td>int8, fp8, bf16, none</td><td>Quantize the transformer to reduce VRAM. Lower precision = less VRAM, slightly lower quality.</td></tr>
+<tr><td>Transformer Dtype</td><td>auto, fp16, bf16</td><td>Data type for the transformer. Auto selects based on GPU capability.</td></tr>
+<tr><td>Mixed Precision</td><td>0 (off), 1 (on)</td><td>Enable mixed-precision inference for faster generation.</td></tr>
+<tr><td>Text Encoder Quantization</td><td>int8, fp8, bf16, none</td><td>Quantize the text encoder to reduce VRAM.</td></tr>
+<tr><td>LM Decoder Engine</td><td>(empty), legacy, cg, vllm</td><td>Text encoder decode backend. Empty = auto. <b>cg</b>: CUDA Graphs. <b>vllm</b>: vLLM engine.</td></tr>
+<tr><td>VAE Precision</td><td>16, 32</td><td>VAE computation precision. 16 = faster, 32 = higher quality (avoids NaN on some GPUs).</td></tr>
+<tr><td>Compile Transformer</td><td>(empty), transformer</td><td>Enable torch.compile on the transformer for faster inference (slow first run).</td></tr>
+<tr><td>VAE Tiling</td><td>Auto, Disabled, 256, 128</td><td>Tile size for VAE decoding. Auto selects based on VRAM. Smaller tiles = less VRAM, slower.</td></tr>
+<tr><td>Boost</td><td>1, 2</td><td>Boost level for attention computation. 2 = more aggressive optimization.</td></tr>
+<tr><td>INT8 Kernels</td><td>On/Off</td><td>Enable INT8 GEMM kernels (requires compatible GPU).</td></tr>
+</table>
+
+<h3>Memory Management</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Preload in VRAM (MB)</td><td>0&ndash;40000</td><td>0</td><td>Pre-allocate VRAM to reduce allocation overhead during generation.</td></tr>
+<tr><td>Max Reserved LoRAs (MB)</td><td>-1 to 10000</td><td>0</td><td>VRAM budget for caching loaded LoRAs. -1 = unlimited.</td></tr>
+</table>
+
+<h3>Output</h3>
+<table>
+<tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+<tr><td>Video Codec</td><td>Auto (GPU-first)</td><td>FFmpeg codec. GPU-first: tries nvenc, falls back to CPU (libx264). Configurable in dropdown.</td></tr>
+<tr><td>Container</td><td>mp4</td><td>Output container format.</td></tr>
+</table>
+
+<h3>Audio Output</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>Device</td><td>Select audio output device for video playback. "(System Default)" uses the OS default.</td></tr>
+</table>
+
+<h3>Storage</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>Projects Root</td><td>Root directory where all projects are stored.</td></tr>
+<tr><td>PNG Library Dir</td><td>Directory for the PNG asset library (used by Draw editor).</td></tr>
+<tr><td>Face Library Dir</td><td>Directory for the face library (used by Face Swap).</td></tr>
+</table>
+
+<h3>Installed Models</h3>
+<p>Set a <b>Models Root</b> directory and click <b>Refresh</b> to scan for installed models.
+Displays a count of detected models per feature (video, image, FLUX, Z-Image, face, etc.).</p>
+
+<h3>Pipeline Controls</h3>
+<table>
+<tr><th>Button</th><th>Description</th></tr>
+<tr><td>Load Video Pipelines</td><td>Initialize the Wan 2.x video generation backend.</td></tr>
+<tr><td>Load Image Pipelines</td><td>Initialize SDXL image generation (checkpoints, VAE, LoRA scanning).</td></tr>
+<tr><td>Load FLUX Pipelines</td><td>Initialize FLUX Chroma + Fill pipelines.</td></tr>
+<tr><td>Load Z-Image Pipelines</td><td>Initialize Z-Image / Hidream pipelines.</td></tr>
+<tr><td>Unload All</td><td>Free all GPU memory by unloading every pipeline.</td></tr>
+</table>
+
+<div class="warn"><b>Note:</b> Pipelines load automatically on first generation. Manual loading
+is only needed if you want to pre-warm for faster first runs.</div>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="console"></a>
+<h2>23. Console</h2>
+
+<p>Toggle with the <b>Console</b> button in the header or <span class="key">Ctrl+`</span>.
+Shows a live log of all application activity with color-coded severity levels.</p>
+
+<h3>Controls</h3>
+<table>
+<tr><th>Control</th><th>Description</th></tr>
+<tr><td>Log Level</td><td>Filter by DEBUG, INFO, WARNING, or ERROR.</td></tr>
+<tr><td>Copy All</td><td>Copy the entire log to clipboard.</td></tr>
+<tr><td>Copy Selected</td><td>Copy only selected text.</td></tr>
+<tr><td>Clear</td><td>Clear the log.</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="ai-assistant"></a>
+<h2>24. AI Assistant (Qwen Chat)</h2>
+
+<p>Click the <b>AI</b> button in the header bar to open the <b>Qwen Assistant</b> &mdash;
+a floating chat window powered by <b>Qwen 3.5 4B</b> (BF16). Ask questions about
+the application's features, workflows, settings, troubleshooting, or any of the upstream
+technologies it integrates.</p>
+
+<h3>Features</h3>
+<ul>
+  <li><b>Context-aware answers</b> &mdash; The assistant has a built-in reference covering all app tabs,
+      workflows, settings, and common issues. When your question mentions a specific technology
+      (ControlNet, LoRA, FLUX, etc.), relevant upstream documentation is automatically injected
+      into the conversation context.</li>
+  <li><b>Per-project chat history</b> &mdash; Conversations are saved per project and persist across sessions.
+      Switching projects switches the chat history.</li>
+  <li><b>Multi-turn conversation</b> &mdash; The assistant remembers previous messages in the current session
+      (up to ~12K tokens of context).</li>
+  <li><b>VRAM-aware lifecycle</b> &mdash; Qwen loads on your GPU when the chat opens (~5 GB VRAM).
+      Starting any generation pipeline automatically unloads Qwen and disables the chat input.
+      Closing the chat window also unloads the model.</li>
+</ul>
+
+<h3>Usage</h3>
+<ol>
+  <li>Click the <b>AI</b> button in the header bar (next to the <b>?</b> help button).</li>
+  <li>Wait for the model to load (first time may take a moment to download ~5 GB).</li>
+  <li>Type your question and press <b>Enter</b> to send (Shift+Enter for newline).</li>
+  <li>Click <b>Clear History</b> to start a fresh conversation.</li>
+  <li>Click <b>Close</b> or the window close button to unload the model and free VRAM.</li>
+</ol>
+
+<h3>Limitations</h3>
+<ul>
+  <li>The assistant is <b>information-only</b> &mdash; it cannot modify files, run code, change settings, or access the internet.</li>
+  <li>It runs a 4B parameter model locally, so answers may not always be perfectly accurate. Verify critical information.</li>
+  <li>While the chat is open, Qwen occupies ~5 GB VRAM. Close the chat before generating to reclaim this memory.</li>
+</ul>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="gen-params"></a>
+<h2>25. Appendix: Generation Parameters Reference</h2>
+
+<p>These settings are shared across <b>Generate (Img2Vid)</b>, <b>Video Extender</b>,
+and <b>Longshot</b> via the <code>GenerationParamsWidget</code>.</p>
+
+<h3>Model &amp; Timing</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Model Type</td><td>Dropdown</td><td>Wan 2.2 I2V 14B</td><td>Video model variant. <b>Wan 2.2 I2V 14B</b> = standard quality, <b>Wan 2.2 I2V 14B Lightning v2</b> = fast distilled (fewer steps needed).</td></tr>
+<tr><td>Resolution</td><td>Dropdown</td><td>832x480</td><td>Output video resolution.</td></tr>
+<tr><td>Duration</td><td>17/33/49/65/81 frames</td><td>81 (5s)</td><td>Number of frames to generate. At 16 FPS: 17=1s, 33=2s, 49=3s, 65=4s, 81=5s.</td></tr>
+<tr><td>FPS</td><td>1&ndash;60</td><td>16</td><td>Output framerate.</td></tr>
+</table>
+
+<h3>Advanced</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Steps</td><td>1&ndash;100</td><td>4</td><td>Diffusion denoising steps. More steps = higher quality but slower. Lightning models need ~4, standard needs 20&ndash;30.</td></tr>
+<tr><td>Guidance</td><td>0&ndash;30</td><td>1.0</td><td>Classifier-free guidance strength. Higher = follows prompt more but may oversaturate.</td></tr>
+<tr><td>Guidance 2</td><td>0&ndash;30</td><td>1.0</td><td>Secondary guidance (used in multi-phase generation with wan2gp loop).</td></tr>
+<tr><td>Flow Shift</td><td>2&ndash;12</td><td>3.0</td><td>Optical flow shift for timing. Higher values slow down motion.</td></tr>
+<tr><td>Solver</td><td>unipc, euler</td><td>unipc</td><td>ODE solver. <b>unipc</b>: multi-step (better quality at fewer steps). <b>euler</b>: single-step (simpler).</td></tr>
+<tr><td>Seed</td><td>-1 to 999M</td><td>-1</td><td>Random seed. -1 = random. Same seed + settings = reproducible output.</td></tr>
+<tr><td>Denoising Strength</td><td>0&ndash;1</td><td>1.0</td><td>How much noise to add. 1.0 = full generation, lower = more of the original preserved.</td></tr>
+<tr><td>Phases</td><td>1&ndash;2</td><td>1</td><td>Multi-phase sampling. Phase 2 uses Guidance 2 value.</td></tr>
+<tr><td>Switch Threshold</td><td>0&ndash;900</td><td>0</td><td>Step at which to switch from Phase 1 to Phase 2.</td></tr>
+</table>
+
+<h3>NAG / TEA Cache (wan2gp only)</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Enable NAG / TEA</td><td>On/Off</td><td>Off</td><td>Master toggle for Normalized Attention Guidance and TEA Cache.</td></tr>
+<tr><td>NAG Scale</td><td>0&ndash;100</td><td>0</td><td>NAG guidance scale.</td></tr>
+<tr><td>NAG Tau</td><td>0&ndash;100</td><td>0</td><td>NAG temperature parameter.</td></tr>
+<tr><td>NAG Alpha</td><td>0&ndash;100</td><td>0</td><td>NAG interpolation coefficient.</td></tr>
+<tr><td>TEA Cache</td><td>off, light, medium, heavy</td><td>off</td><td>Token-efficient attention caching. Trades quality for speed.</td></tr>
+<tr><td>TEA Start %</td><td>0&ndash;100</td><td>0</td><td>Percentage of generation at which to start TEA caching.</td></tr>
+</table>
+
+<h3>Quality Overrides (wan2gp only)</h3>
+<table>
+<tr><th>Setting</th><th>Range</th><th>Default</th><th>Description</th></tr>
+<tr><td>Enable Quality</td><td>On/Off</td><td>Off</td><td>Master toggle for quality override settings.</td></tr>
+<tr><td>SLG</td><td>On/Off</td><td>Off</td><td>Skip-Layer Guidance &mdash; skip attention in specific transformer layers.</td></tr>
+<tr><td>SLG Layers</td><td>Comma-separated</td><td>7,8,...,19</td><td>Which transformer layers to skip.</td></tr>
+<tr><td>SLG Start/End %</td><td>0&ndash;100</td><td>0 / 100</td><td>Phase range for SLG application.</td></tr>
+<tr><td>APG</td><td>On/Off</td><td>Off</td><td>Attention Parallel Guidance.</td></tr>
+<tr><td>CFG Star</td><td>0&ndash;1</td><td>0</td><td>Guidance switch mode.</td></tr>
+<tr><td>CFG Zero</td><td>-1 to 39</td><td>-1</td><td>Disable guidance at this step. -1 = never.</td></tr>
+<tr><td>Motion Amplitude</td><td>1.0&ndash;1.4</td><td>1.0</td><td>Magnify motion in the output. &gt;1 = more movement.</td></tr>
+<tr><td>Color Corr</td><td>0&ndash;1</td><td>0</td><td>Apply color correction to match the source image palette.</td></tr>
+<tr><td>Discard</td><td>0&ndash;20 (step 4)</td><td>0</td><td>Drop the last N frames (removes common end-of-clip artifacts).</td></tr>
+<tr><td>Self Refiner</td><td>Disabled, P1-Norm, P2-Norm</td><td>Disabled</td><td>Self-refinement mode for iterative quality improvement.</td></tr>
+<tr><td>Uncert</td><td>0&ndash;10</td><td>0</td><td>Uncertainty threshold for self-refiner.</td></tr>
+<tr><td>Cert Skip</td><td>0&ndash;10</td><td>0</td><td>Certainty skip threshold for self-refiner.</td></tr>
+</table>
+
+<h3>Post-Processing</h3>
+<table>
+<tr><th>Setting</th><th>Options</th><th>Default</th><th>Description</th></tr>
+<tr><td>Temporal Upsampling</td><td>Disabled, RIFE x2, RIFE x4</td><td>Disabled</td><td>Frame interpolation. x2 doubles FPS, x4 quadruples. Produces smoother video.</td></tr>
+<tr><td>Spatial Upsampling</td><td>Disabled, Lanczos 1.5x, Lanczos 2.0x</td><td>Disabled</td><td>Resolution upscale after generation.</td></tr>
+<tr><td>Film Grain Intensity</td><td>0&ndash;1</td><td>0</td><td>Add synthetic film grain for a cinematic look.</td></tr>
+<tr><td>Film Grain Saturation</td><td>0&ndash;1</td><td>0</td><td>Color saturation of the film grain.</td></tr>
+</table>
+
+<h3>LoRA</h3>
+<table>
+<tr><th>Setting</th><th>Description</th></tr>
+<tr><td>LoRA List</td><td>Multi-select checklist of available LoRAs from <code>lora_dir</code>. Check to enable.</td></tr>
+<tr><td>Multipliers</td><td>Semicolon-separated weights (e.g. <code>1.0;0.5;1.0</code>). One per checked LoRA, in order.</td></tr>
+<tr><td>Refresh LoRAs</td><td>Rescan the LoRA directory for newly added files.</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================================================== -->
+<a name="credits"></a>
+<h2>Acknowledgments &amp; Credits</h2>
+<p>Heavily modified portions of the following inference pipelines and libraries were referenced
+when building Supreme Diffusion. We gratefully acknowledge these projects and their authors:</p>
+
+<h3>Video Generation</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/Wan-Video/Wan2.1">Wan 2.1 / 2.2</a></td><td>Alibaba / Wan-Video</td><td>Apache 2.0</td><td>Core I2V backbone</td></tr>
+<tr><td><a href="https://github.com/deepbeepmeep/Wan2GP">Wan2GP</a></td><td>deepbeepmeep</td><td>Non-commercial*</td><td>GPU-poor optimizations, VRAM reduction, quantization</td></tr>
+<tr><td><a href="https://github.com/ali-vilab/VACE">VACE</a></td><td>Alibaba / ali-vilab</td><td>Apache 2.0</td><td>Video creation and editing framework</td></tr>
+<tr><td><a href="https://github.com/MeiGen-AI/MultiTalk">MultiTalk</a></td><td>MeiGen-AI</td><td>Research use</td><td>Multi-person conversational video</td></tr>
+</table>
+
+<h3>Image Generation</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/Stability-AI/stablediffusion">Stable Diffusion / SDXL</a></td><td>Stability AI</td><td>CreativeML Open RAIL-M</td><td>Foundation text-to-image models</td></tr>
+<tr><td><a href="https://github.com/huggingface/diffusers">Diffusers</a></td><td>Hugging Face</td><td>Apache 2.0</td><td>Diffusion model inference library</td></tr>
+<tr><td><a href="https://github.com/Panchovix/stable-diffusion-webui-reForge">reForge</a></td><td>Panchovix (fork of lllyasviel)</td><td>AGPL-3.0</td><td>SD pipeline patterns reference</td></tr>
+<tr><td><a href="https://github.com/VAST-AI-Research/TripoSR">TripoSR</a></td><td>VAST-AI / Stability AI / Tripo</td><td>MIT</td><td>Single-image 3D mesh reconstruction</td></tr>
+</table>
+
+<h3>Lip Sync</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/TMElyralab/MuseTalk">MuseTalk</a></td><td>TMElyralab (Tencent)</td><td>MIT (code+models)</td><td>Real-time latent-space lip sync</td></tr>
+<tr><td><a href="https://github.com/bytedance/LatentSync">LatentSync</a></td><td>ByteDance</td><td>OpenRAIL++</td><td>SD-based lip sync with SyncNet supervision</td></tr>
+<tr><td><a href="https://github.com/OpenTalker/video-retalking">Video Retalking</a></td><td>OpenTalker</td><td>Apache 2.0</td><td>Expression editing + lip sync + face enhancement</td></tr>
+</table>
+
+<h3>Face Swap &amp; Analysis</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/deepinsight/insightface">InsightFace</a></td><td>DeepInsight</td><td>MIT (code) / Non-commercial (models)</td><td>Face detection, recognition, alignment</td></tr>
+<tr><td><a href="https://github.com/s0md3v/roop">Roop</a></td><td>s0md3v</td><td>AGPL-3.0</td><td>Face swap architecture</td></tr>
+<tr><td><a href="https://github.com/TencentARC/GFPGAN">GFPGAN</a></td><td>TencentARC</td><td>Apache 2.0</td><td>GAN-based face restoration</td></tr>
+<tr><td><a href="https://github.com/sczhou/CodeFormer">CodeFormer</a></td><td>sczhou (S-Lab, NTU)</td><td>S-Lab License 1.0</td><td>Codebook face restoration</td></tr>
+</table>
+
+<h3>Pose &amp; Identity Control</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/lllyasviel/ControlNet">ControlNet</a></td><td>lllyasviel (Lvmin Zhang)</td><td>Apache 2.0</td><td>Conditional diffusion control</td></tr>
+<tr><td><a href="https://github.com/tencent-ailab/IP-Adapter">IP-Adapter</a></td><td>Tencent AI Lab</td><td>Apache 2.0</td><td>Image prompt adapter for identity</td></tr>
+</table>
+
+<h3>Post-Processing &amp; Infrastructure</h3>
+<table>
+<tr><th>Project</th><th>Author / Org</th><th>License</th><th>Notes</th></tr>
+<tr><td><a href="https://github.com/hzwer/ECCV2022-RIFE">RIFE</a></td><td>Megvii Research</td><td>MIT</td><td>Frame interpolation for temporal upsampling</td></tr>
+<tr><td><a href="https://github.com/xinntao/Real-ESRGAN">Real-ESRGAN</a></td><td>Xinntao</td><td>BSD-3</td><td>Spatial upscaling</td></tr>
+<tr><td><a href="https://github.com/openai/whisper">Whisper</a></td><td>OpenAI</td><td>MIT</td><td>Audio features for lip sync</td></tr>
+<tr><td><a href="https://github.com/resemble-ai/chatterbox">Chatterbox TTS</a></td><td>Resemble AI</td><td>MIT</td><td>Voice cloning with emotion control</td></tr>
+<tr><td><a href="https://github.com/nari-labs/dia">Dia TTS</a></td><td>Nari Labs</td><td>Apache 2.0</td><td>Multi-speaker dialogue synthesis</td></tr>
+<tr><td><a href="https://github.com/facebookresearch/audiocraft">AudioCraft (MusicGen / AudioGen)</a></td><td>Meta</td><td>MIT</td><td>Text-to-music and text-to-sound-effect generation</td></tr>
+<tr><td><a href="https://pytorch.org">PyTorch</a></td><td>Meta</td><td>BSD-3</td><td>Deep learning framework</td></tr>
+<tr><td><a href="https://www.qt.io/qt-for-python">PySide6 (Qt)</a></td><td>The Qt Company</td><td>LGPL-3.0</td><td>Desktop UI framework</td></tr>
+<tr><td><a href="https://ffmpeg.org">FFmpeg</a></td><td>FFmpeg team</td><td>LGPL/GPL</td><td>Video/audio processing</td></tr>
+</table>
+
+<div class="warn">
+<b>License notes:</b> InsightFace pre-trained models (buffalo_l, inswapper) are for <b>non-commercial research use only</b>.
+CodeFormer uses the S-Lab License 1.0. Wan2GP applies a non-commercial license.
+Always check upstream project licenses for your use case.
+</div>
+
+<hr>
+<p style="text-align: center; color: #666; font-size: 12px; margin-top: 32px;">
+Supreme Diffusion v2.1.0
+</p>
+
+</body>
+</html>

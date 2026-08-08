@@ -1,0 +1,71 @@
+{
+  "template_version": 1,
+  "name": "Default",
+  "description": "General-purpose transformation presets for the Pipeline Wizard.",
+  "author": "SupremeDiffusion",
+
+  "transformation_types": [
+    {"label": "Aging (Young to Old)", "key": "aging"},
+    {"label": "Emotion Shift", "key": "emotion_shift"},
+    {"label": "Costume Change", "key": "costume_change"},
+    {"label": "Weather / Lighting Shift", "key": "weather_shift"},
+    {"label": "Damage / Decay", "key": "damage_decay"},
+    {"label": "Custom (Write Your Own)", "key": "custom"}
+  ],
+
+  "transformation_stages": {
+    "aging": [
+      {"label": "Stage 1 — Young Adult", "prompt": "youthful appearance, smooth skin, bright eyes, full hair", "drift": 1},
+      {"label": "Stage 2 — Middle Aged", "prompt": "visible aging, slight wrinkles around eyes, hair thinning slightly, mature look", "drift": 2},
+      {"label": "Stage 3 — Elderly", "prompt": "heavily aged, deep wrinkles, grey hair, weathered skin, tired eyes", "drift": 3},
+      {"label": "Stage 4 — Very Old", "prompt": "extremely aged, paper-thin wrinkled skin, white sparse hair, sunken features, frail posture", "drift": 5}
+    ],
+    "emotion_shift": [
+      {"label": "Stage 1 — Neutral", "prompt": "neutral calm expression, relaxed face, natural posture", "drift": 1},
+      {"label": "Stage 2 — Uneasy", "prompt": "slightly uneasy expression, tension in shoulders, brow furrowed", "drift": 1},
+      {"label": "Stage 3 — Distressed", "prompt": "visibly distressed, tears forming, hands clenched, body tense", "drift": 2},
+      {"label": "Stage 4 — Extreme", "prompt": "extreme emotion, face contorted, body language dramatic, tears streaming", "drift": 3}
+    ],
+    "costume_change": [
+      {"label": "Stage 1 — Casual", "prompt": "wearing casual everyday clothes, relaxed look", "drift": 1},
+      {"label": "Stage 2 — Semi-Formal", "prompt": "changed into semi-formal attire, buttoned shirt, neat appearance", "drift": 2},
+      {"label": "Stage 3 — Formal", "prompt": "wearing formal elegant attire, suit or gown, polished appearance", "drift": 3},
+      {"label": "Stage 4 — Theatrical", "prompt": "wearing elaborate theatrical costume, ornate details, dramatic look", "drift": 4}
+    ],
+    "weather_shift": [
+      {"label": "Stage 1 — Clear", "prompt": "clear sky, bright natural lighting, warm tones", "drift": 1},
+      {"label": "Stage 2 — Overcast", "prompt": "overcast sky, diffused grey light, muted colors, clouds building", "drift": 1},
+      {"label": "Stage 3 — Storm", "prompt": "dark storm clouds, rain falling, dramatic lightning in distance, wind blowing", "drift": 3},
+      {"label": "Stage 4 — Aftermath", "prompt": "storm clearing, wet surfaces reflecting light, rainbow faintly visible, aftermath debris", "drift": 2}
+    ],
+    "damage_decay": [
+      {"label": "Stage 1 — Pristine", "prompt": "clean pristine environment, everything intact and well-maintained", "drift": 1},
+      {"label": "Stage 2 — Worn", "prompt": "slightly worn, paint peeling, dust collecting, minor cracks visible", "drift": 2},
+      {"label": "Stage 3 — Damaged", "prompt": "significant damage, broken windows, crumbling walls, debris on floor", "drift": 3},
+      {"label": "Stage 4 — Ruined", "prompt": "completely ruined, collapsed ceiling, overgrown with vines, abandoned and destroyed", "drift": 5}
+    ]
+  },
+
+  "ending_variants": {
+    "aging": [
+      {"label": "Peaceful End", "prompt": "peacefully resting, eyes closed, serene expression, warm golden light", "type": "aftermath"},
+      {"label": "Final Breath", "prompt": "taking a final labored breath, hand reaching out, fading light", "type": "climax"}
+    ],
+    "emotion_shift": [
+      {"label": "Breakdown", "prompt": "complete emotional breakdown, collapsed on the floor, sobbing uncontrollably", "type": "climax"},
+      {"label": "Catharsis", "prompt": "moment of catharsis, wiping tears, faint smile breaking through, relief visible", "type": "aftermath"}
+    ],
+    "costume_change": [
+      {"label": "Reveal", "prompt": "dramatic reveal, spotlight hitting the final outfit, confident pose, audience reaction", "type": "climax"},
+      {"label": "Unmasked", "prompt": "removing the costume piece by piece, returning to bare appearance, shedding the persona", "type": "aftermath"}
+    ],
+    "weather_shift": [
+      {"label": "Lightning Strike", "prompt": "massive lightning bolt strikes nearby, blinding flash, deafening crack, sparks flying", "type": "climax"},
+      {"label": "Calm After Storm", "prompt": "sun breaking through clouds, steam rising from wet ground, peaceful stillness", "type": "aftermath"}
+    ],
+    "damage_decay": [
+      {"label": "Collapse", "prompt": "structure finally collapses, cloud of dust and debris, crashing sounds, destruction complete", "type": "climax"},
+      {"label": "Nature Reclaims", "prompt": "nature fully reclaiming the ruins, flowers growing through cracks, trees through windows, beautiful decay", "type": "aftermath"}
+    ]
+  }
+}

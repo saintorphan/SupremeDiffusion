@@ -1,0 +1,133 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.egg
+
+# Editor / OS
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+
+# Model weights — downloaded at runtime, never committed
+*.onnx
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.gguf
+
+# Media files — user content, never committed
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.aac
+
+# Keep the app icon
+!assets/icon.png
+!assets/icon.svg
+# Keep the model architecture config
+!supremediffusion/models/configs/*.json
+
+# Factory directories (created at runtime by start.sh, user content lives here)
+/models/
+/projects/
+/library/
+config.json
+.sdqt.lock
+image_presets.json
+prompt_profiles.json
+
+# Generated content subdirs (inside projects)
+frames/
+clips/
+outputs/
+generations/
+combined/
+trims/
+faces/
+
+# Dev-only startup (personal paths, not for distribution)
+startup-dev.sh
+startup-dev.bat
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Pipeline templates — user-imported templates (default.json is tracked)
+pipeline_templates/*
+!pipeline_templates/default.json
+
+# User plugins — personal/third-party plugins (framework is tracked)
+# Plugin authors: add your plugin folder here or ship it as a separate repo
+plugins/inflation/
+plugins/web_assets/
+plugins/disabled.json
+
+# Local scripts and logs
+.audit/
+scripts/audit_log.sh
+scripts/test_inflation.py
+scripts/test_burst_sequence.py
+
+# Local docs and drafts
+docs/BUSINESS_PITCH_DRAFT.md
+docs/CLAUDE_PITCH_BRIEF.md
+docs/PRODUCT_STRATEGY.md
+docs/STASH_GUIDE.md
+docs/STRATEGIC_ROADMAP.md
+docs/WEB_ASSET_PLUGIN_PLAN.md
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Session notes
+last_session_changes*.txt
+
+# Claude Code artifacts
+.claude/
+CLAUDE.md
+memory/
+MEMORY.md
+3D_MODEL_IMPLEMENTATION.md
+LORA_TRAINING_IMPLEMENTATION.md
+third_party/
+
+# Internal dev docs / audit reports — not for distribution
+GENERATION_ANALYSIS.md
+REBUILD_PLAN.md
+UI_UX_AUDIT.md
+
+# CodeGraph index / cache
+.codegraph/
+.cgr-hash-cache.json
+
+# Backup dirs and processed media
+*.OLD/
+processed/
+
+# Application logs
+logs/

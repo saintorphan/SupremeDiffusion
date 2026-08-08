@@ -1,0 +1,122 @@
+{
+  "_comment": "Content Pack Schema v1 — defines valid fields, types, and structure for all content pack JSONs.",
+  "schema_version": "1",
+
+  "required_fields": {
+    "content_version": {"type": "integer", "description": "Schema version this pack follows (currently 1)"},
+    "name": {"type": "string", "description": "Display name for this content pack"},
+    "key": {"type": "string", "description": "Unique identifier key (snake_case, no spaces)"}
+  },
+
+  "optional_fields": {
+    "description": {"type": "string", "description": "One-line description of this content pack"},
+    "author": {"type": "string", "description": "Author name or handle"}
+  },
+
+  "list_fields": {
+    "_description": "Arrays of {label, prompt} objects. Label is displayed in dropdowns, prompt is appended to the generation prompt.",
+    "stages": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Stage 1 — Setup')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing this stage"},
+        "drift": {"type": "number", "required": false, "description": "Intensity 1-10, controls denoise strength between stages. Higher = more change.", "default": 2}
+      }
+    },
+    "endings": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Fade Out')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment for the ending"},
+        "type": {"type": "string", "required": false, "description": "Ending category: 'fade', 'cut', 'transition', or custom", "default": ""}
+      }
+    },
+    "video_prompts": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name shown in prompt preset dropdown"},
+        "prompt": {"type": "string", "required": true, "description": "Full video generation prompt"}
+      }
+    },
+    "image_prompts": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name shown in prompt preset dropdown"},
+        "prompt": {"type": "string", "required": true, "description": "Full image generation prompt"}
+      }
+    },
+    "clothing": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Tight White T-Shirt')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the clothing"}
+      }
+    },
+    "poses": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Standing Front')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the pose"}
+      }
+    },
+    "insertions": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Text Overlay')"},
+        "prompt": {"type": "string", "required": false, "description": "Prompt fragment to insert into the generation (empty for none)", "default": ""}
+      }
+    },
+    "expressions": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Shock / Surprise')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the expression"}
+      }
+    },
+    "settings": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Clinical / Hospital')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the environment/setting"}
+      }
+    },
+    "camera_angles": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Wide Shot — Full Body')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the camera angle"}
+      }
+    },
+    "atmospheres": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Clinical Horror')"},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the mood/atmosphere"}
+      }
+    },
+    "substances": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Water')"},
+        "key": {"type": "string", "required": false, "description": "Machine key for cross-referencing (e.g. 'water')", "default": ""},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the substance"}
+      }
+    },
+    "speeds": {
+      "item_fields": {
+        "label": {"type": "string", "required": true, "description": "Display name (e.g. 'Slow Build')"},
+        "key": {"type": "string", "required": false, "description": "Machine key (e.g. 'slow')", "default": ""},
+        "prompt": {"type": "string", "required": true, "description": "Prompt fragment describing the progression speed"}
+      }
+    }
+  },
+
+  "dict_fields": {
+    "lora_suggestions": {
+      "description": "LoRA recommendation data. 'keywords' maps prompt keywords to LoRA filename stems. 'recommended' lists specific LoRA files with strength and trigger.",
+      "structure": "free-form dict"
+    },
+    "ending_variants_by_substance": {
+      "description": "Maps substance keys to arrays of ending objects (same schema as 'endings').",
+      "structure": "dict[str, list[{label, prompt, type}]]"
+    }
+  },
+
+  "string_fields": {
+    "auto_direct_system_prompt": {
+      "description": "System prompt for the AI Director (Qwen) to generate per-second shot breakdowns. Leave empty to use the plugin's default."
+    },
+    "quality_tier": {
+      "description": "Preferred quality tier for this content pack: 'draft', 'standard', 'production', or 'ultra'. If omitted or the user's hardware can't handle it, the system auto-selects based on detected GPU. Users can always override.",
+      "valid_values": ["draft", "standard", "production", "ultra"]
+    }
+  }
+}

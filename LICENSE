@@ -1,0 +1,65 @@
+MIT License
+
+Copyright (c) 2025-2026 saintorphan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+UPSTREAM COMPONENT LICENSES
+
+This software integrates with and references numerous upstream projects, each
+carrying its own license. The MIT license above applies only to the original
+code in this repository (the PySide6 frontend, orchestration layer, and
+associated tooling). Upstream components retain their respective licenses:
+
+  Wan 2.1 / 2.2               Apache 2.0
+  Stable Diffusion / SDXL     CreativeML Open RAIL-M
+  Hugging Face Diffusers      Apache 2.0
+  FLUX                         Apache 2.0
+  MuseTalk                     MIT
+  LatentSync                   OpenRAIL++
+  Video Retalking              Apache 2.0
+  InsightFace (models)         Non-commercial research use only
+  Roop                         AGPL-3.0
+  GFPGAN                       Apache 2.0
+  CodeFormer                   S-Lab License 1.0
+  ControlNet                   Apache 2.0
+  IP-Adapter                   Apache 2.0
+  TripoSR                      MIT
+  reForge                      AGPL-3.0
+  RIFE                         MIT
+  Real-ESRGAN                  BSD-3-Clause
+  Orpheus TTS                  Apache 2.0
+  OpenVoice                    MIT
+  RVC                          MIT
+  Whisper                      MIT
+  Wav2Vec 2.0                  MIT
+  PyTorch                      BSD-3-Clause
+  PySide6 (Qt)                 LGPL-3.0
+  FFmpeg                       LGPL/GPL
+  xformers                     BSD-3-Clause
+  MMGP                         Non-commercial*
+
+* Wan2GP/MMGP applies a non-commercial license to its optimizations.
+
+Users are responsible for ensuring compliance with all applicable upstream
+licenses and local regulations, particularly when using face swap, lip sync,
+voice cloning, and deepfake-adjacent features. Always obtain consent when
+using real people's likenesses or voices and clearly label generated content.

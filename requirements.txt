@@ -1,0 +1,41 @@
+# Qt frontend
+PySide6>=6.6
+
+# Core ML (torch/torchvision/torchaudio installed separately by start.sh
+# with the correct --index-url for your GPU's CUDA version. If installing
+# manually, run:  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+# Replace cu126 with cu124 or cu128 depending on your driver.)
+diffusers>=0.31.0,<1.0.0
+transformers>=4.52.0
+accelerate>=0.30.0
+peft>=0.10.0
+safetensors>=0.4.0
+
+# LTX Video 2.3 (install from https://github.com/Lightricks/LTX-2)
+# pip install -e packages/ltx-core && pip install -e packages/ltx-pipelines
+# Requires: Python >=3.12, CUDA >12.7, PyTorch ~=2.7
+
+# Quantization & optimization
+optimum-quanto>=0.2.0
+gguf>=0.6.0
+mmgp>=0.8.0
+xformers
+
+# Image & video
+Pillow>=10.0
+numpy>=1.24
+opencv-python>=4.8
+av>=12.0
+librosa>=0.10
+PyOpenGL>=3.1
+
+# AI post-processing (upscale, denoise, sharpen, face restore)
+spandrel>=0.3
+
+# Match Grade / colour matching
+color-matcher>=0.5
+
+# Tokenizers
+sentencepiece
+protobuf
+ftfy
